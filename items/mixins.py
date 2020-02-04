@@ -88,3 +88,8 @@ class Readable:
 
     def read(self):
         print(self.text)
+
+class Fixed:
+    """Cannot be taken or moved.
+    """
+    pass

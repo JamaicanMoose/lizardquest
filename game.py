@@ -3,7 +3,7 @@ from time import sleep
 from itertools import chain as chain_iter
 from player import Player
 from rooms.all import rooms
-from items.mixins import Openable
+from items.mixins import Openable, Fixed
 from scenarios.intro import Intro
 
 def sleep(i):
@@ -72,10 +72,14 @@ def parser(state, inpt: str):
     def _take(item_name):
         for item in room_items:
             if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
-                inventory.append(item)
-                room_items.remove(item)
-                print(f'You take the {item.name}.')
-                return
+                if not isinstance(item, Fixed):
+                    inventory.append(item)
+                    room_items.remove(item)
+                    print(f'You take the {item.name}.')
+                    return
+                else:
+                    print(f'You can\'t take the {item.name}')
+                    raise CommandFailed()
         print('Nothing like that exists here.')
         raise CommandFailed()
 
