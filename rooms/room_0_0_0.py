@@ -1,5 +1,5 @@
 from items.item import Item
-from items.mixins import Entrance, Openable, Readable
+from items.mixins import Entrance, Openable, Readable, Lockable
 from person import Person
 
 """ The Hollow [Room (0,0,0)]
@@ -10,14 +10,14 @@ class Opening(Entrance, Item):
     entrance_destination = (1,0,0)
     description = 'A door made from a large piece of leather'
 
-class Grate(Entrance, Openable, Item):
+class Grate(Lockable, Entrance, Openable, Item):
     name = 'grate'
-    open = False
+    openable_open = False
     entrance_destination = (0,0,-1)
 
     @property
     def description(self):
-        return 'A Large Stone Grate' + (' (Open)' if self.open else ' (Closed)')
+        return 'A Large Stone Grate' + (' (Open)' if self.openable_open else ' (Closed)')
 
 class Plea(Readable, Item):
     name = 'plea for help'

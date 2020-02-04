@@ -90,6 +90,68 @@ def parser(state, inpt: str):
         print('You aren\'t holding anything like that.')
         raise CommandFailed()
 
+    def _open(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.open()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _close(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.close()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _unlock(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.unlock()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _lock(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.lock()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _turn(onoff, thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                if onoff == 'on':
+                    thing.turn_on()
+                elif onoff == 'off':
+                    thing.turn_off()
+                else:
+                    print('What did you want to do?')
+                    raise CommandFailed()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _break(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.break_()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _use(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.use()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
     def _inventory():
         print('Inventory:\n----------')
         if inventory:
@@ -137,7 +199,14 @@ def parser(state, inpt: str):
         'look': (_look, 0),
         'talk': (_talk, 2),
         'feel': (_feel, 1),
-        'touch': (_feel, 1)
+        'touch': (_feel, 1),
+        'open': (_open, 1),
+        'close': (_close, 1),
+        'unlock': (_unlock, 1),
+        'lock': (_lock, 1),
+        'turn': (_turn, 2),
+        'break': (_break, 1),
+        'use': (_use, 1)
     }
     if not len(comm_inpt):
         print('What did you want to do?')

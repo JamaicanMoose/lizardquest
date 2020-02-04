@@ -93,7 +93,7 @@ class Entrance:
     entrance_verb = 'go through'
 
     def destination(self):
-        if hasmixin(self, Openable) and not self.open:
+        if hasmixin(self, Openable) and not self.openable_open:
             print(f'You can\'t {self.entrance_verb} a closed {self.name}.')
             raise CommandFailed()
         return self.entrance_destination
