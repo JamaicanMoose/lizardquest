@@ -2,7 +2,7 @@ from random import randint
 from time import sleep
 from itertools import chain as chain_iter
 from player import Player
-from rooms.all import rooms
+from rooms.all import rooms, describe_room
 from items.mixins import Openable, Fixed
 from scenarios.intro import Intro
 from errors import CommandFailed
@@ -10,19 +10,6 @@ from util import hasmixin
 
 def sleep(i):
     pass
-
-def enter(loc):
-    room = rooms[loc]
-    print(room['description'])
-    if room['exits']:
-        for direction in room['exits'].keys():
-            print(f'To the {direction}: {room["exits"][direction].description}')
-    if room['items']:
-        print('In the room is:')
-        for item in room['items']:
-            print(str(item))
-    if room['people']:
-        pass
 
 def parser(state, inpt: str):
     comm_inpt = inpt.lower().split()
@@ -36,7 +23,7 @@ def parser(state, inpt: str):
                 print('DEBUG: That room is not yet implemented!')
                 raise CommandFailed()
             state['curr_room'] = destination
-            enter(state['curr_room'])
+            describe_room(rooms[state['curr_room']])
         else:
             print('There is no exit in that direction.')
             raise CommandFailed()
@@ -50,19 +37,30 @@ def parser(state, inpt: str):
         return chain_iter(inventory, room_items, room_exits)
 
     def __available__():
-        return chain_iter(room_people, __available_items__())
+        return chain_iter(room_people, __available_items__(), [state['player']])
 
-    def _examine(item_name):
-        for item in __available_items__():
-            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
-                item.examine()
+    def __is_same__(thing_name, thing):
+        return thing_name.lower() in (thing.name.lower(), thing.prettyname.lower())
+
+    def _examine(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.examine()
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
+
+    def _feel(thing_name):
+        for thing in __available__():
+            if __is_same__(thing_name, thing):
+                thing.feel()
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()
 
     def _read(item_name):
         for item in __available_items__():
-            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
+            if __is_same__(item_name, item):
                 item.read()
                 return
         print('Nothing like that exists here.')
@@ -70,7 +68,7 @@ def parser(state, inpt: str):
 
     def _take(item_name):
         for item in room_items:
-            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
+            if __is_same__(item_name, item):
                 if not hasmixin(item, Fixed):
                     inventory.append(item)
                     room_items.remove(item)
@@ -82,6 +80,16 @@ def parser(state, inpt: str):
         print('Nothing like that exists here.')
         raise CommandFailed()
 
+    def _drop(item_name):
+        for item in inventory:
+            if __is_same__(item_name, item):
+                room_items.append(item)
+                inventory.remove(item)
+                print(f'You drop the {item.name}')
+                return
+        print('You aren\'t holding anything like that.')
+        raise CommandFailed()
+
     def _inventory():
         print('Inventory:\n----------')
         if inventory:
@@ -91,14 +99,14 @@ def parser(state, inpt: str):
             print('NONE')
 
     def _look():
-        enter(state['curr_room'])
+        describe_room(rooms[state['curr_room']])
 
     def _talk(_to, thing_name):
         if _to != 'to':
             print('What did you want to do?')
             raise CommandFailed()
         for thing in __available__():
-            if thing_name.lower() in (thing.name.lower(), thing.prettyname.lower()):
+            if __is_same__(thing_name, thing):
                 thing.talk(state)
                 return
         print('Nothing like that exists here.')
@@ -115,17 +123,21 @@ def parser(state, inpt: str):
         'nw': (lambda: _go('north west'), 0),
         'go': (_go, 1),
         'examine': (_examine, 1),
+        'inspect': (_examine, 1),
         'read': (_read, 1),
         'i': (_inventory, 0),
         'inventory': (_inventory, 0),
         'w': (lambda: None, 0),
         'wait': (lambda: None, 1),
         'take': (_take, 1),
+        'drop': (_drop, 1),
         'q': (lambda: exit(0), 0),
         'quit': (lambda: exit(0), 0),
         'l': (_look, 0),
         'look': (_look, 0),
-        'talk': (_talk, 2)
+        'talk': (_talk, 2),
+        'feel': (_feel, 1),
+        'touch': (_feel, 1)
     }
     if not len(comm_inpt):
         print('What did you want to do?')
@@ -156,7 +168,7 @@ def game():
 
     Intro().start(state)
     print('\n')
-    enter(state['curr_room'])
+    describe_room(rooms[state['curr_room']])
 
     while True:
         try:
