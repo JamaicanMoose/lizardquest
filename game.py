@@ -232,7 +232,7 @@ def game():
     state = {
         'player': Player(),
         'turn': 0,
-        'curr_room': (0,0,0)
+        'curr_room': 'brig'
     }
 
     Intro().start(state)
