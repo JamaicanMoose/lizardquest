@@ -12,6 +12,7 @@ class Opening(Entrance, Item):
 room_1_0_0 = {
     'description': 'A coridor that looks like it was meant to be straight but the fleshlike walls add an organic quality to it.',
     'items': [],
+    'people': [],
     'exits': {
         'south': Opening()
     }

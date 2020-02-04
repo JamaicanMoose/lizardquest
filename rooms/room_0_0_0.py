@@ -1,6 +1,4 @@
 from items.item import Item
-from items.note import Note
-from items.knife import Knife
 from items.mixins import Entrance, Openable, Readable
 
 """ The Hollow [Room (0,0,0)]
@@ -28,9 +26,9 @@ class Plea(Readable, Item):
 room_0_0_0 = {
     'description': 'The chamber is relatively bare except for small metal tubes that crisscross the ceiling.',
     'items': [
-        Knife(),
         Plea()
     ],
+    'people': [],
     'exits': {
         'north': Opening(),
         'south': Grate(),

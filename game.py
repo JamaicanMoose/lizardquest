@@ -1,8 +1,10 @@
 from random import randint
-#from time import sleep
+from time import sleep
 from itertools import chain as chain_iter
+from player import Player
 from rooms.all import rooms
 from items.mixins import Openable
+from scenarios.intro import Intro
 
 def sleep(i):
     pass
@@ -17,9 +19,11 @@ def enter(loc):
         for direction in room['exits'].keys():
             print(f'To the {direction}: {room["exits"][direction].description}')
     if room['items']:
-        print('On the ground is:')
+        print('In the room is:')
         for item in room['items']:
             print(str(item))
+    if room['people']:
+        pass
 
 def parser(state, inpt: str):
     comm_inpt = inpt.lower().split()
@@ -41,8 +45,9 @@ def parser(state, inpt: str):
             print('There is no exit in that direction.')
             raise CommandFailed()
 
-    inventory = state['inventory']
+    inventory = state['player'].inventory
     room_items = rooms[state['curr_room']]['items']
+    room_people = rooms[state['curr_room']]['people']
     room_exits = rooms[state['curr_room']]['exits'].values()
 
     def __available_items__():
@@ -85,11 +90,25 @@ def parser(state, inpt: str):
     def _look():
         enter(state['curr_room'])
 
+    def _talk(_to, person):
+        if _to != 'to':
+            print('What did you want to do?')
+            raise CommandFailed()
+        if person in room_people:
+            person.talk(state)
+        else:
+            print('Noone named that is here.')
+            raise CommandFailed()
+
     commands = {
         'n': (lambda: _go('north'), 0),
-        's': (lambda: _go('south'), 0),
+        'ne': (lambda: _go('north east'), 0),
         'e': (lambda: _go('east'), 0),
+        'se': (lambda: _go('south east'), 0),
+        's': (lambda: _go('south'), 0),
+        'sw': (lambda: _go('south west'), 0),
         'w': (lambda: _go('west'), 0),
+        'nw': (lambda: _go('north west'), 0),
         'go': (_go, 1),
         'examine': (_examine, 1),
         'read': (_read, 1),
@@ -101,7 +120,8 @@ def parser(state, inpt: str):
         'q': (lambda: exit(0), 0),
         'quit': (lambda: exit(0), 0),
         'l': (_look, 0),
-        'look': (_look, 0)
+        'look': (_look, 0),
+        'talk': (_talk, 2)
     }
     if not len(comm_inpt):
         print('What did you want to do?')
@@ -125,38 +145,16 @@ def parser(state, inpt: str):
 
 def game():
     state = {
+        'player': Player(),
         'turn': 0,
-        'inventory': [],
-        'is_earthquake': True,
-        'earthquake_timer': randint(5, 15),
         'curr_room': (0,0,0)
     }
 
-    print('Its dark. The light of your lamp lights your way as you are swallowed by a hole in the forest floor.\nThe sides of the chute you\'ve fallen into transition from earth\n')
-    sleep(2)
-    print('to stone\n')
-    sleep(2)
-    print('to flesh\n')
-    sleep(1)
-    print('as you descend far below.\n')
-    sleep(.5)
-    print('.\n')
-    sleep(.5)
-    print('.\n')
-    sleep(.5)
-    print('.\n')
-    print('You land with hardly a sound as the floor below your feet catches you like a thick pillow.\n\nIt\'s warm; and moist.\n\nYour belongings have burst from your knapsack and are spread over the floor.')
+    Intro().start(state)
+    print('\n')
     enter(state['curr_room'])
 
     while True:
-        if state['is_earthquake']:
-            state['earthquake_timer'] -= 1
-            if state['earthquake_timer'] == 0:
-                if state['curr_room'] == (0,0,-1):
-                    print('A deafaning noise fills the room as the massive hearts beat around you.')
-                print('The earth around you trembles...')
-                sleep(1)
-                state['earthquake_timer'] = randint(5, 15)
         try:
             inpt = input('--> ')
             print('\n')
