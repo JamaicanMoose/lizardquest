@@ -1,5 +1,6 @@
 from items.item import Item
 from items.mixins import Entrance, Openable, Readable
+from person import Person
 
 """ The Hollow [Room (0,0,0)]
 """
@@ -28,7 +29,9 @@ room_0_0_0 = {
     'items': [
         Plea()
     ],
-    'people': [],
+    'people': [
+        Person()
+    ],
     'exits': {
         'north': Opening(),
         'south': Grate(),

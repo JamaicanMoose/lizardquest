@@ -49,6 +49,9 @@ def parser(state, inpt: str):
     def __available_items__():
         return chain_iter(inventory, room_items, room_exits)
 
+    def __available__():
+        return chain_iter(room_people, __available_items__())
+
     def _examine(item_name):
         for item in __available_items__():
             if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
@@ -90,15 +93,16 @@ def parser(state, inpt: str):
     def _look():
         enter(state['curr_room'])
 
-    def _talk(_to, person):
+    def _talk(_to, thing_name):
         if _to != 'to':
             print('What did you want to do?')
             raise CommandFailed()
-        if person in room_people:
-            person.talk(state)
-        else:
-            print('Noone named that is here.')
-            raise CommandFailed()
+        for thing in __available__():
+            if thing_name.lower() in (thing.name.lower(), thing.prettyname.lower()):
+                thing.talk(state)
+                return
+        print('Nothing like that exists here.')
+        raise CommandFailed()
 
     commands = {
         'n': (lambda: _go('north'), 0),

@@ -4,31 +4,24 @@ from errors import CommandFailed
 class Item(ABC):
 
     name = 'thing'
+    pronouns = ('it', 'it', 'its', '', 'itself')
 
-    def __str__(self):
+    @property
+    def prettyname(self):
         return f'A {self.name.title()}'
 
-    _prettyname = None
-
-    def getpn(self):
-        if not self._prettyname:
-            self._prettyname = str(self)
-        return self._prettyname
-
-    def setpn(self, new):
-        self._prettyname = new
-
-    prettyname = property(getpn, setpn)
+    def __str__(self):
+        return self.prettyname
 
     @property
     def description(self):
-        return f'It is definitely a {self.name}. Looking closer you see more of its {self.name}ness.'
+        return f'It is definitely {self.prettyname}. Looking closer you see more of {self.pronouns[2]} {self.name}ness.'
 
     def examine(self):
         print(self.description)
 
     def feel(self):
-        print(f'Definitely feels like a {self.name}.')
+        print(f'Definitely feels like {self.prettyname}.')
 
     def open(self):
         print(f'This thing is not one of the things that can be opened.')
@@ -66,4 +59,8 @@ class Item(ABC):
 
     def use(self):
         print(f'What does it even mean to use a {self.name}?')
+        raise CommandFailed()
+
+    def talk(self, _state):
+        print(f'Talking to inanimate objects now are we?')
         raise CommandFailed()
