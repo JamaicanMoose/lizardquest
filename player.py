@@ -1,25 +1,27 @@
-class Player:
+from person import Person
+
+class Player(Person):
     """Holds Relevant data to the current state of the player character"""
-    name=""
-    inventory=[]
-    titles=[]
-    accolades=[]
+    name = 'self'
+    _prettyname = ''
+    pronouns = ('you', 'you', 'your', 'yours', 'yourself')
+    state = {
+        'inventory': [],
+        'titles': [],
+        'accolades': []
+    }
 
-    def addAccolade(self, accolade):
-        self.accolades.append(accolade)
+    def add_accolade(self, accolade):
+        self.state['accolades'].append(accolade)
         print("New Accolade Acquired! Henceforth, you shall be known as:")
-        print(self.name+", "+accolade)
+        print(f'{self._prettyname}, {accolade}')
 
-    def addTitle(self, title):
-        self.titles.append[title]
+    def add_title(self, title):
+        self.state['titles'].append[title]
         print("New Title Acquired! Henceforth, you shall be known as:")
-        print(title+" "+self.name)
+        print(f'{title} {self._prettyname}')
 
-    def examineSelf(self):
-        print("You're known as",end=" ")
-        for x in self.titles:
-            print(x, end=" ")
-        print(self.name, end=", ")
-        for x in self.accolades:
-            print(x, end=", ")
-        print()
+    def examine(self):
+        title_str = ' '.join(self.state['titles'])
+        accolade_str = ', '.join(self.state['accolades'])
+        print(f'You\'re known as {title_str+" " if title_str else ""}{self._prettyname}{", "+accolade_str if accolade_str else ""}.')

@@ -41,7 +41,7 @@ def parser(state, inpt: str):
             print('There is no exit in that direction.')
             raise CommandFailed()
 
-    inventory = state['player'].inventory
+    inventory = state['player'].state['inventory']
     room_items = rooms[state['curr_room']]['items']
     room_people = rooms[state['curr_room']]['people']
     room_exits = rooms[state['curr_room']]['exits'].values()
