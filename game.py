@@ -2,14 +2,28 @@ from random import randint
 from time import sleep
 from itertools import chain as chain_iter
 from player import Player
-from rooms.all import rooms, describe_room
-from items.mixins import Openable, Fixed
+from rooms.all import rooms
+from items.mixins import Openable
 from scenarios.intro import Intro
-from errors import CommandFailed
-from util import hasmixin
 
 def sleep(i):
     pass
+
+class CommandFailed(Exception):
+    pass
+
+def enter(loc):
+    room = rooms[loc]
+    print(room['description'])
+    if room['exits']:
+        for direction in room['exits'].keys():
+            print(f'To the {direction}: {room["exits"][direction].description}')
+    if room['items']:
+        print('In the room is:')
+        for item in room['items']:
+            print(str(item))
+    if room['people']:
+        pass
 
 def parser(state, inpt: str):
     comm_inpt = inpt.lower().split()
@@ -18,17 +32,20 @@ def parser(state, inpt: str):
         room = rooms[state['curr_room']]
         exits = room['exits']
         if direction in exits.keys():
-            destination = exits[direction].destination()
-            if destination not in rooms:
+            if exits[direction].destination not in rooms:
                 print('DEBUG: That room is not yet implemented!')
                 raise CommandFailed()
-            state['curr_room'] = destination
-            describe_room(rooms[state['curr_room']])
+            if isinstance(exits[direction], Openable):
+                if not exits[direction].open:
+                    print(f'You can\'t exit through a closed {exits[direction].name}.')
+                    raise CommandFailed()
+            state['curr_room'] = exits[direction].destination
+            enter(state['curr_room'])
         else:
             print('There is no exit in that direction.')
             raise CommandFailed()
 
-    inventory = state['player'].state['inventory']
+    inventory = state['player'].inventory
     room_items = rooms[state['curr_room']]['items']
     room_people = rooms[state['curr_room']]['people']
     room_exits = rooms[state['curr_room']]['exits'].values()
@@ -36,31 +53,17 @@ def parser(state, inpt: str):
     def __available_items__():
         return chain_iter(inventory, room_items, room_exits)
 
-    def __available__():
-        return chain_iter(room_people, __available_items__(), [state['player']])
-
-    def __is_same__(thing_name, thing):
-        return thing_name.lower() in (thing.name.lower(), thing.prettyname.lower())
-
-    def _examine(thing_name):
-        for thing in __available__():
-            if __is_same__(thing_name, thing):
-                thing.examine()
-                return
-        print('Nothing like that exists here.')
-        raise CommandFailed()
-
-    def _feel(thing_name):
-        for thing in __available__():
-            if __is_same__(thing_name, thing):
-                thing.feel()
+    def _examine(item_name):
+        for item in __available_items__():
+            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
+                item.examine()
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()
 
     def _read(item_name):
         for item in __available_items__():
-            if __is_same__(item_name, item):
+            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
                 item.read()
                 return
         print('Nothing like that exists here.')
@@ -68,26 +71,12 @@ def parser(state, inpt: str):
 
     def _take(item_name):
         for item in room_items:
-            if __is_same__(item_name, item):
-                if not hasmixin(item, Fixed):
-                    inventory.append(item)
-                    room_items.remove(item)
-                    print(f'You take the {item.name}.')
-                    return
-                else:
-                    print(f'You can\'t take the {item.name}')
-                    raise CommandFailed()
-        print('Nothing like that exists here.')
-        raise CommandFailed()
-
-    def _drop(item_name):
-        for item in inventory:
-            if __is_same__(item_name, item):
-                room_items.append(item)
-                inventory.remove(item)
-                print(f'You drop the {item.name}')
+            if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
+                inventory.append(item)
+                room_items.remove(item)
+                print(f'You take the {item.name}.')
                 return
-        print('You aren\'t holding anything like that.')
+        print('Nothing like that exists here.')
         raise CommandFailed()
 
     def _inventory():
@@ -99,18 +88,17 @@ def parser(state, inpt: str):
             print('NONE')
 
     def _look():
-        describe_room(rooms[state['curr_room']])
+        enter(state['curr_room'])
 
-    def _talk(_to, thing_name):
+    def _talk(_to, person):
         if _to != 'to':
             print('What did you want to do?')
             raise CommandFailed()
-        for thing in __available__():
-            if __is_same__(thing_name, thing):
-                thing.talk(state)
-                return
-        print('Nothing like that exists here.')
-        raise CommandFailed()
+        if person in room_people:
+            person.talk(state)
+        else:
+            print('No one named that is here.')
+            raise CommandFailed()
 
     commands = {
         'n': (lambda: _go('north'), 0),
@@ -123,21 +111,17 @@ def parser(state, inpt: str):
         'nw': (lambda: _go('north west'), 0),
         'go': (_go, 1),
         'examine': (_examine, 1),
-        'inspect': (_examine, 1),
         'read': (_read, 1),
         'i': (_inventory, 0),
         'inventory': (_inventory, 0),
         'w': (lambda: None, 0),
         'wait': (lambda: None, 1),
         'take': (_take, 1),
-        'drop': (_drop, 1),
         'q': (lambda: exit(0), 0),
         'quit': (lambda: exit(0), 0),
         'l': (_look, 0),
         'look': (_look, 0),
-        'talk': (_talk, 2),
-        'feel': (_feel, 1),
-        'touch': (_feel, 1)
+        'talk': (_talk, 2)
     }
     if not len(comm_inpt):
         print('What did you want to do?')
@@ -163,12 +147,12 @@ def game():
     state = {
         'player': Player(),
         'turn': 0,
-        'curr_room': (0,0,0)
+        'curr_room': 'brig'
     }
 
     Intro().start(state)
     print('\n')
-    describe_room(rooms[state['curr_room']])
+    enter(state['curr_room'])
 
     while True:
         try:

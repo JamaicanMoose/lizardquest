@@ -18,8 +18,7 @@ class GoalChoice(Scenario):
             print("You hear a rumbling in your stomach, and, all of a sudden, "
                   "your ultimate goal becomes very apparent to you: a nice "
                   "sandwich!\nFree of the pirates' brig, you venture into the "
-                  "ship's depths in search of such a treasure...\n")
-            state['player'].add_accolade('The Hungry')
+                  "ship's depths in search of such a treasure...")
 
         def _b():
             print("While you may be free from the cell, true freedom yet "
@@ -27,16 +26,15 @@ class GoalChoice(Scenario):
                   "through the cosmos!\nAs such, your ultimate objective is "
                   "clear: find a means of escape to secure your future.\n"
                   "You head off into the depths of the ship in pursuit of "
-                  "this goal...\n")
-            state['player'].add_accolade('The Trapped')
+                  "this goal...")
 
         def _c():
             print("You are now free of physical bonds, but you can't help "
                   "but think that this freedom would be so much more easily "
                   "enjoyed alongside a nice friend.\nFree of the jail cell's "
                   "steel bars, you head off into the ships' depths in search "
-                  "of one of life's greatest treasures: friendship!\n")
-            state['player'].add_accolade('The Lonely')
+                  "of one of life's greatest treasures: friendship!")
+
         _n()
 
 class Intro(Scenario):
@@ -45,9 +43,6 @@ class Intro(Scenario):
             print("You wake up. You're in a cold, metal-plated jail cell.\nIn your "
                   "cell is a small cot and table.\nOutside the bars of your cell, "
                   "there's a long hallway and someone who is probably your guard.")
-            sleep(2)
-            print('What was your name again?')
-            state['player']._prettyname = input('--? ').title()
             sleep(2)
             print("As your mind clears, you remember that you were kidnapped by "
                   "space pirates!\nThis must be their ship, and you are in "
