@@ -5,11 +5,10 @@ from player import Player
 from rooms.all import rooms
 from items.mixins import Openable, Fixed
 from scenarios.intro import Intro
+from errors import CommandFailed
+from util import hasmixin
 
 def sleep(i):
-    pass
-
-class CommandFailed(Exception):
     pass
 
 def enter(loc):
@@ -32,14 +31,11 @@ def parser(state, inpt: str):
         room = rooms[state['curr_room']]
         exits = room['exits']
         if direction in exits.keys():
-            if exits[direction].destination not in rooms:
+            destination = exits[direction].destination()
+            if destination not in rooms:
                 print('DEBUG: That room is not yet implemented!')
                 raise CommandFailed()
-            if isinstance(exits[direction], Openable):
-                if not exits[direction].open:
-                    print(f'You can\'t exit through a closed {exits[direction].name}.')
-                    raise CommandFailed()
-            state['curr_room'] = exits[direction].destination
+            state['curr_room'] = destination
             enter(state['curr_room'])
         else:
             print('There is no exit in that direction.')
@@ -72,7 +68,7 @@ def parser(state, inpt: str):
     def _take(item_name):
         for item in room_items:
             if item_name.lower() in (item.name.lower(), item.prettyname.lower()):
-                if not isinstance(item, Fixed):
+                if not hasmixin(item, Fixed):
                     inventory.append(item)
                     room_items.remove(item)
                     print(f'You take the {item.name}.')

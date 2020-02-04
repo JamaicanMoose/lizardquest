@@ -6,13 +6,13 @@ from items.mixins import Entrance, Openable, Readable
 
 class Opening(Entrance, Item):
     name = 'opening'
-    destination = (1,0,0)
+    entrance_destination = (1,0,0)
     description = 'A door made from a large piece of leather'
 
 class Grate(Entrance, Openable, Item):
     name = 'grate'
     open = False
-    destination = (0,0,-1)
+    entrance_destination = (0,0,-1)
 
     @property
     def description(self):

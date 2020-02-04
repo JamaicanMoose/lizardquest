@@ -1,4 +1,5 @@
 from abc import ABC
+from errors import CommandFailed
 
 class Item(ABC):
 
@@ -31,21 +32,27 @@ class Item(ABC):
 
     def open(self):
         print(f'This thing is not one of the things that can be opened.')
+        raise CommandFailed()
 
     def close(self):
         print(f'This thing is not one of the things that can be closed.')
+        raise CommandFailed()
 
     def unlock(self):
         print(f'This thing is not one of the things that can be unlocked.')
+        raise CommandFailed()
 
     def lock(self):
         print(f'This thing is not one of the things that can be locked.')
+        raise CommandFailed()
 
     def turn_on(self):
         print(f'What does it even mean to turn on a {self.name}?')
+        raise CommandFailed()
 
     def turn_off(self):
         print(f'What does it even mean to turn off a {self.name}?')
+        raise CommandFailed()
 
     def break_(self):
         print(f'The {self.name} cannot be broken.')
@@ -53,5 +60,10 @@ class Item(ABC):
     def read(self):
         print(f'There is no text on it.')
 
-    def enter(self):
-        print(f'What does it even mean to enter a {self.name}?')
+    def destination(self):
+        print(f'Where does a {self.name} go?')
+        raise CommandFailed()
+
+    def use(self):
+        print(f'What does it even mean to use a {self.name}?')
+        raise CommandFailed()
