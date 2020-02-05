@@ -13,13 +13,19 @@ class Player(Person):
 
     def add_accolade(self, accolade):
         self.state['accolades'].append(accolade)
-        print("New Accolade Acquired! Henceforth, you shall be known as:")
+        s = 'New Accolade Acquired! Henceforth, you shall be known as:'
+        print('*'*len(s))
+        print(s)
         print(f'{self._prettyname}, {accolade}')
+        print('*'*len(s))
 
     def add_title(self, title):
         self.state['titles'].append[title]
-        print("New Title Acquired! Henceforth, you shall be known as:")
+        s = 'New Title Acquired! Henceforth, you shall be known as:'
+        print('*'*len(s))
+        print(s)
         print(f'{title} {self._prettyname}')
+        print('*'*len(s))
 
     def examine(self):
         title_str = ' '.join(self.state['titles'])
