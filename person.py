@@ -11,5 +11,5 @@ class Person(Item):
     def prettyname(self):
         return self.name.title()
 
-    def talk(self, state):
-        self.scenario.start({'main': state, 'other': self.state})
+    def talk(self):
+        self.scenario.start(self.state)

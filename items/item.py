@@ -61,6 +61,6 @@ class Item(ABC):
         print(f'What does it even mean to use a {self.name}?')
         raise CommandFailed()
 
-    def talk(self, _state):
+    def talk(self):
         print(f'Talking to inanimate objects now are we?')
         raise CommandFailed()

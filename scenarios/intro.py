@@ -19,7 +19,7 @@ class GoalChoice(Scenario):
                   "your ultimate goal becomes very apparent to you: a nice "
                   "sandwich!\nFree of the pirates' brig, you venture into the "
                   "ship's depths in search of such a treasure...\n")
-            state['player'].add_accolade('The Hungry')
+            _game_state['player'].add_accolade('The Hungry')
 
         def _b():
             print("While you may be free from the cell, true freedom yet "
@@ -28,7 +28,7 @@ class GoalChoice(Scenario):
                   "clear: find a means of escape to secure your future.\n"
                   "You head off into the depths of the ship in pursuit of "
                   "this goal...\n")
-            state['player'].add_accolade('The Trapped')
+            _game_state['player'].add_accolade('The Trapped')
 
         def _c():
             print("You are now free of physical bonds, but you can't help "
@@ -36,7 +36,7 @@ class GoalChoice(Scenario):
                   "enjoyed alongside a nice friend.\nFree of the jail cell's "
                   "steel bars, you head off into the ships' depths in search "
                   "of one of life's greatest treasures: friendship!\n")
-            state['player'].add_accolade('The Lonely')
+            _game_state['player'].add_accolade('The Lonely')
         _n()
 
 class Intro(Scenario):
@@ -47,7 +47,7 @@ class Intro(Scenario):
                   "there's a long hallway and someone who is probably your guard.")
             sleep(2)
             print('What was your name again?')
-            state['player']._prettyname = input('--? ').title()
+            _game_state['player']._prettyname = input('--? ').title()
             sleep(2)
             print("As your mind clears, you remember that you were kidnapped by "
                   "space pirates!\nThis must be their ship, and you are in "
