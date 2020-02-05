@@ -11,33 +11,34 @@ from util import hasmixin
 def sleep(i):
     pass
 
-def parser(state, inpt: str):
+def parser(inpt: str):
     comm_inpt = inpt.lower().split()
 
     def _go(direction):
-        room = rooms[state['curr_room']]
+        room = curr_room()
         exits = room['exits']
         if direction in exits.keys():
             destination = exits[direction].destination()
             if destination not in rooms:
                 print('DEBUG: That room is not yet implemented!')
                 raise CommandFailed()
-            state['curr_room'] = destination
-            describe_room(rooms[state['curr_room']])
+            _game_state['curr_loc'] = destination
+            _game_state['curr_room'] = rooms[destination]
+            describe_room(_game_state['curr_room'])
         else:
             print('There is no exit in that direction.')
             raise CommandFailed()
 
-    inventory = state['player'].state['inventory']
-    room_items = rooms[state['curr_room']]['items']
-    room_people = rooms[state['curr_room']]['people']
-    room_exits = rooms[state['curr_room']]['exits'].values()
+    inventory = _game_state['player'].state['inventory']
+    room_items = _game_state['curr_room']['items']
+    room_people = _game_state['curr_room']['people']
+    room_exits = _game_state['curr_room']['exits'].values()
 
     def __available_items__():
         return chain_iter(inventory, room_items, room_exits)
 
     def __available__():
-        return chain_iter(room_people, __available_items__(), [state['player']])
+        return chain_iter(room_people, __available_items__(), [_game_state['player']])
 
     def __is_same__(thing_name, thing):
         return thing_name.lower() in (thing.name.lower(), thing.prettyname.lower())
@@ -161,7 +162,7 @@ def parser(state, inpt: str):
             print('NONE')
 
     def _look():
-        describe_room(rooms[state['curr_room']])
+        describe_room(_game_state['curr_room'])
 
     def _talk(_to, thing_name):
         if _to != 'to':
@@ -169,7 +170,7 @@ def parser(state, inpt: str):
             raise CommandFailed()
         for thing in __available__():
             if __is_same__(thing_name, thing):
-                thing.talk(state)
+                thing.talk(_game_state)
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()
@@ -229,22 +230,25 @@ def parser(state, inpt: str):
         command(*comm_args)
 
 def game():
-    state = {
+    # Make game state global
+    import builtins
+    builtins._game_state = {
         'player': Player(),
         'turn': 0,
-        'curr_room': 'brig'
+        'curr_loc': 'brig',
+        'curr_room': rooms['brig']
     }
 
-    Intro().start(state)
+    Intro().start({})
     print('\n')
-    describe_room(rooms[state['curr_room']])
+    describe_room(_game_state['curr_room'])
 
     while True:
         try:
             inpt = input('--> ')
             print('\n')
-            parser(state, inpt)
-            state['turn'] += 1
+            parser(inpt)
+            _game_state['turn'] += 1
         except CommandFailed:
             pass
         print('\n')
