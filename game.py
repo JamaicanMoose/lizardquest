@@ -175,6 +175,29 @@ def parser(inpt: str):
         print('Nothing like that exists here.')
         raise CommandFailed()
 
+    def _help():
+        command_txt = [
+            '(quit, q) : You just can\'t take it anymore.',
+            '(help, h) : You should probably know this.',
+            '(look, l, surroundings) : Look around the room.',
+            '(inventory, i) : Check your inventory.',
+            '(go) [DIRECTION] : Take the exit in DIRECTION.',
+            '(examine, inspect) [THING] : Get some more information about THING.',
+            '(feel, touch) [THING] : Touch THING.',
+            '(open) [THING] : Try to open THING.',
+            '(close) [THING] : Try to close THING.',
+            '(unlock) [THING] : Try to unlock THING.',
+            '(lock) [THING] : Try to lock THING.',
+            '(turn) [on/off] [THING] : Try to turn THING on/off.',
+            '(break) [THING] : Try to break THING.',
+            '(use) [THING] : Try to use THING.',
+            '(talk) [THING] : Try to talk to THING.',
+            '(read) [THING] : Try to read THING.'
+            '(wait, w) : Sit around for a bit.'
+        ]
+        for text in command_txt:
+            print(text)
+
     commands = {
         'n': (lambda: _go('north'), 0),
         'ne': (lambda: _go('north east'), 0),
@@ -198,6 +221,7 @@ def parser(inpt: str):
         'quit': (lambda: exit(0), 0),
         'l': (_look, 0),
         'look': (_look, 0),
+        'surroundings': (_look, 0),
         'talk': (_talk, 2),
         'feel': (_feel, 1),
         'touch': (_feel, 1),
@@ -207,7 +231,9 @@ def parser(inpt: str):
         'lock': (_lock, 1),
         'turn': (_turn, 2),
         'break': (_break, 1),
-        'use': (_use, 1)
+        'use': (_use, 1),
+        'help': (_help, 0),
+        'h': (_help, 0)
     }
     if not len(comm_inpt):
         print('What did you want to do?')
