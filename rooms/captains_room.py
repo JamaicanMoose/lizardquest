@@ -7,7 +7,7 @@ from items.mixins import Entrance
 class toBridge(Entrance, Item):
     name = 'ladder'
     entrance_destination = 'bridge'
-    description = ('A sturdy chrome ladder.')
+    description = ('A sturdy chrome ladder, leading back up to the BRIDGE.')
 
 captains_room = {
     'description': ('You are in the Captain\'s Room.'),

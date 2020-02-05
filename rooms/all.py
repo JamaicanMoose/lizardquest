@@ -31,11 +31,12 @@ rooms = {
 def describe_room(room):
     print(room['description'])
     if room['exits']:
+        print("\nPossible exits include:")
         for direction in room['exits'].keys():
-            print(f'To the {direction}: {room["exits"][direction].description}')
+            print(f'\t{direction}: {room["exits"][direction].description}')
     if room['items']:
-        print('In the room is:')
+        print('\nA few things catch your eye:')
         for item in room['items']:
-            print(str(item))
+            print('\t'+str(item))
     if room['people']:
         pass

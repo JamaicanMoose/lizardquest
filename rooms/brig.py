@@ -33,9 +33,9 @@ brig = {
                     'to the second floor of the ship.\nA small '+
                     'sign off to the side of the ladder '+
                     'reads \"To Rec Room.\"\n'
-                    '\nOn the other end of the hall, there is a GRID OF'+
+                    'On the other end of the hall, there is a GRID OF'+
                     ' PHOTOS.\n'
-                    '\nA guard sits in the middle of the hall, proudly polishing a MEDAL of some'+
+                    'A guard sits in the middle of the hall, proudly polishing a MEDAL of some'+
                     ' fashion.'),
     'items': [
         EmployeeBoard(),
@@ -45,4 +45,4 @@ brig = {
     'exits': {
         'north': Ladder(),
     }
-}
+ }
