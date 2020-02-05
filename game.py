@@ -15,7 +15,7 @@ def parser(inpt: str):
     comm_inpt = inpt.lower().split()
 
     def _go(direction):
-        room = curr_room()
+        room = _game_state['curr_room']
         exits = room['exits']
         if direction in exits.keys():
             destination = exits[direction].destination()
