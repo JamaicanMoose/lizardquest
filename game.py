@@ -41,7 +41,7 @@ def parser(inpt: str):
         return chain_iter(room_people, __available_items__(), [_game_state['player']])
 
     def __is_same__(thing_name, thing):
-        return thing_name.lower() in (thing.name.lower(), thing.prettyname.lower())
+        return thing_name.lower() in (thing.name, thing.prettyname.lower(), *thing.alt_names)
 
     def _examine(thing_name):
         for thing in __available__():

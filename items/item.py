@@ -4,6 +4,7 @@ from errors import CommandFailed
 class Item(ABC):
 
     name = 'thing'
+    alt_names = tuple([])
     pronouns = ('it', 'it', 'its', '', 'itself')
 
     @property
