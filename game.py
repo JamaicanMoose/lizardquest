@@ -3,7 +3,7 @@ from time import sleep
 from itertools import chain as chain_iter
 from player import Player
 from rooms.all import rooms, describe_room
-from items.mixins import Openable, Fixed
+from items.mixins import Openable, Readable
 from scenarios.intro import Intro
 from errors import CommandFailed
 from util import hasmixin
@@ -73,13 +73,13 @@ def parser(inpt: str):
     def _take(item_name):
         for item in room_items:
             if __is_same__(item_name, item):
-                if not hasmixin(item, Fixed):
+                if item.can_take:
                     inventory.append(item)
                     room_items.remove(item)
-                    print(f'You take the {item.name}.')
+                    print(item.take_text)
                     return
                 else:
-                    print(f'You can\'t take the {item.name}')
+                    print(item.take_fail_text)
                     raise CommandFailed()
         print('Nothing like that exists here.')
         raise CommandFailed()
