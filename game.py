@@ -47,6 +47,9 @@ def parser(inpt: str):
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.examine()
+                if hasmixin(thing, Readable):
+                    print('It Reads:')
+                    thing.read()
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()

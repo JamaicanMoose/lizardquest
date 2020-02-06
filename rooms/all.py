@@ -33,7 +33,7 @@ def describe_room(room):
     if room['exits']:
         print("\nPossible exits include:")
         for direction in room['exits'].keys():
-            print(f'\t{direction}: {room["exits"][direction].description}')
+            print(f'\t{direction}: {room["exits"][direction].prettyname}')
     if room['items']:
         print('\nA few things catch your eye:')
         for item in room['items']:
