@@ -62,6 +62,14 @@ class Medal(Fixed, Readable, Item):
     description = _medal_description
     take_fail_text = _medal_take_fail_text
 
+class Flask(Fixed, Item):
+    name = 'ye flask'
+    alt_names = ['flask']
+    take_fail_text = '''\
+You can\'t get ye flask.
+
+You sit imagining why on Earth you can\'t get ye flask.
+You give up because the game\'s certainly not going to tell you.'''
 
 class GuardConversation(Scenario):
 
@@ -213,7 +221,8 @@ brig = {
     'description': (_brig_description),
     'items': [
         EmployeeBoard(),
-        Medal()
+        Medal(),
+        Flask()
     ],
     'people': [
         Guard()
