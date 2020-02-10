@@ -1,4 +1,26 @@
 from person import Person
+from scenarios.scenario import Scenario
+
+class TalkToSelf(Scenario):
+    num_times_called = 0
+    def start(self, state):
+        if self.num_times_called == 0:
+            self.num_times_called += 1
+            print('~~I swear I\'m not going insane~~~')
+        elif self.num_times_called == 1:
+            self.num_times_called += 1
+            print('~~~Maybe I am a bit crazy~~~')
+        elif self.num_times_called == 2:
+            self.num_times_called += 1
+            print('~~~I think someone may be controlling my every action~~~')
+        elif self.num_times_called == 3:
+            self.num_times_called += 1
+            print('~~~Is it you?~~~')
+        else:
+            self.num_times_called = 1
+            print('~~~Who me?~~~')
+            state.add_accolade('The Mad')
+
 
 class Player(Person):
     """Holds Relevant data to the current state of the player character"""
@@ -10,6 +32,8 @@ class Player(Person):
         'titles': [],
         'accolades': []
     }
+    scenario = TalkToSelf()
+
     def has_accolade(self, accolade):
         return accolade in self.state['accolades']
 
