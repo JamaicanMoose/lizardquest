@@ -1,8 +1,6 @@
 from time import sleep
 from .scenario import Scenario
-
-def sleep(_n):
-    pass
+from random import choice as random_choice
 
 class GoalChoice(Scenario):
     def start(self, state):
@@ -47,7 +45,28 @@ class Intro(Scenario):
                   "there's a long hallway and someone who is probably your guard.")
             sleep(2)
             print('What was your name again?')
-            _game_state['player']._prettyname = input('--? ').title()
+            name = input('--? ').title()
+            if name:
+                _game_state['player']._prettyname = name
+            else:
+                possible_names = [
+                    'Bob', 'Greg', 'Billy', 'Nameless', 'Shelly', 'Kleebo'
+                ]
+                _game_state['player']._prettyname = random_choice(possible_names)
+                print('''\
+
+Well okay...
+
+'''
+                )
+                sleep(1)
+            print(f'''\
+
+Henceforth, you shall be known as:
+{_game_state['player'].full_name()}
+
+'''
+            )
             sleep(2)
             print("As your mind clears, you remember that you were kidnapped by "
                   "space pirates!\nThis must be their ship, and you are in "
