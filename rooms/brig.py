@@ -64,6 +64,9 @@ class Medal(Fixed, Readable, Item):
 
 class Flask(Fixed, Item):
     name = 'ye flask'
+    description = '''\
+A basic flask.
+You should be able to get it.'''
     alt_names = ['flask']
     take_fail_text = '''\
 You can\'t get ye flask.
