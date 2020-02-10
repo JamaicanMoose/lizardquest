@@ -1,5 +1,5 @@
 from items.item import Item
-from items.mixins import Entrance, Readable, Fixed
+from items.mixins import Entrance, Readable, Fixed, Breakable
 from scenarios.scenario import Scenario
 
 """ Head administrative office of bureaucracy and mail
@@ -20,7 +20,7 @@ You try to grab the desk and take it with you but it seems to be fixed
 to the floor.
 '''
 
-class LabelMaker(Readable, Item):
+class LabelMaker(Breakable, Readable, Item):
     name = 'label maker'
     text = 'Label Maker'
     _label_maker_num_labels = 1
