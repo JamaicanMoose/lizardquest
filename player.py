@@ -10,22 +10,29 @@ class Player(Person):
         'titles': [],
         'accolades': []
     }
+    def has_accolade(self, accolade):
+        return accolade in self.state['accolades']
 
     def add_accolade(self, accolade):
-        self.state['accolades'].append(accolade)
-        s = 'New Accolade Acquired! Henceforth, you shall be known as:'
-        print('*'*len(s))
-        print(s)
-        print(f'{self._prettyname}, {accolade}')
-        print('*'*len(s))
+        if not self.has_accolade(accolade):
+            self.state['accolades'].append(accolade)
+            s = 'New Accolade Acquired! Henceforth, you shall be known as:'
+            print('*'*len(s))
+            print(s)
+            print(f'{self._prettyname}, {accolade}')
+            print('*'*len(s))
+
+    def has_title(self, title):
+        return title in self.state['titles']
 
     def add_title(self, title):
-        self.state['titles'].append[title]
-        s = 'New Title Acquired! Henceforth, you shall be known as:'
-        print('*'*len(s))
-        print(s)
-        print(f'{title} {self._prettyname}')
-        print('*'*len(s))
+        if not self.has_title(title):
+            self.state['titles'].append[title]
+            s = 'New Title Acquired! Henceforth, you shall be known as:'
+            print('*'*len(s))
+            print(s)
+            print(f'{title} {self._prettyname}')
+            print('*'*len(s))
 
     def examine(self):
         title_str = ' '.join(self.state['titles'])
