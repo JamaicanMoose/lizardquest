@@ -43,7 +43,15 @@ def parser(inpt: str):
     def __is_same__(thing_name, thing):
         return thing_name.lower() in (thing.name, thing.prettyname.lower(), *thing.alt_names)
 
+    def _prompt_for_thing(thing_name, action):
+        if thing_name:
+            return thing_name
+        else:
+            print(f'What would you like to {action}?')
+            return input('--? ')
+
     def _examine(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'examine')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.examine()
@@ -55,6 +63,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _feel(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'feel')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.feel()
@@ -63,6 +72,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _read(item_name):
+        item_name = _prompt_for_thing(item_name, 'read')
         for item in __available_items__():
             if __is_same__(item_name, item):
                 item.read()
@@ -71,6 +81,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _take(item_name):
+        item_name = _prompt_for_thing(item_name, 'take')
         for item in room_items:
             if __is_same__(item_name, item):
                 if item.can_take:
@@ -85,6 +96,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _drop(item_name):
+        item_name = _prompt_for_thing(item_name, 'drop')
         for item in inventory:
             if __is_same__(item_name, item):
                 room_items.append(item)
@@ -95,6 +107,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _open(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'open')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.open()
@@ -103,6 +116,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _close(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'close')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.close()
@@ -111,6 +125,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _unlock(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'unlock')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.unlock()
@@ -119,6 +134,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _lock(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'lock')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.lock()
@@ -127,6 +143,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _turn(onoff, thing_name):
+        thing_name = _prompt_for_thing(thing_name, f'turn {onoff}')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 if onoff == 'on':
@@ -141,6 +158,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _break(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'break')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.break_()
@@ -149,6 +167,7 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _use(thing_name):
+        thing_name = _prompt_for_thing(thing_name, 'use')
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.use()
@@ -254,8 +273,8 @@ def parser(inpt: str):
     elif num_args < len(comm_args):
         command(*[*comm_args[:num_args-1], ' '.join(comm_args[num_args-1:])])
     elif num_args > len(comm_args):
-        print('What did you want to do?')
-        raise CommandFailed()
+        filler = [None]*(num_args-len(comm_args))
+        command(*[*comm_args, *filler])
     else:
         command(*comm_args)
 
