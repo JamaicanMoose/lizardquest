@@ -29,8 +29,17 @@ Beneath each is a simple metal plaque:
 
 class EmployeeBoard(Fixed, Item):
     name = 'grid of photos'
-    alt_names = ('photos',)
+    alt_names = ['photos']
     description = _grid_of_photos_description
+    prettyname = 'A Grid Of Photos'
+
+    def examine(self):
+        self.alt_names.append('grid of photos')
+        self.name = 'meaningless awards'
+        self.prettyname = self.name.title()
+        self.alt_names.append('awards')
+        _game_state['_brig_employee_board_examined'] = True
+        Item.examine(self)
 
 
 _medal_front_text = '''\
@@ -76,6 +85,8 @@ Was there anything else you wanted to talk about?'''
             choices.append(('Your medal', _a,))
             if 'ben' not in guard.alt_names:
                 choices.append(('Your name', _c,))
+            if '_brig_employee_board_examined' in _game_state:
+                choices.append(('Employee of the month', _b,))
             choices.append(('Nothing', _end,))
             Scenario.choose(choices)
 
@@ -89,6 +100,15 @@ The cap\'n gave it to me after I captured my 10th prisoner.'''
             choices.append(('Can I have it?', _ab,))
             choices.append(('*Leave*', lambda: _end(rude=True),))
             Scenario.choose(choices)
+
+        def _b():
+            print('The guards smiles.')
+            guard_say('''\
+Yep, recognition for my hard work.
+No one else even stood a chance.'''
+            )
+            anything_else()
+            _n()
 
         def _c():
             guard_say('''\
