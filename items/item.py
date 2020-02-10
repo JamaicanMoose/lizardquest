@@ -74,4 +74,4 @@ class Item(ABC):
 
     @property
     def take_fail_text(self):
-        return f'You can\'t take the {item.name}'
+        return f'You can\'t take the {self.name}'

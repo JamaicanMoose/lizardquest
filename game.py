@@ -239,6 +239,7 @@ def parser(inpt: str):
         'w': (lambda: None, 0),
         'wait': (lambda: None, 1),
         'take': (_take, 1),
+        'get': (_take, 1),
         'drop': (_drop, 1),
         'q': (lambda: exit(0), 0),
         'quit': (lambda: exit(0), 0),
