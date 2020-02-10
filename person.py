@@ -12,4 +12,4 @@ class Person(Item):
         return self.name.title()
 
     def talk(self):
-        self.scenario.start(self.state)
+        self.scenario.start(self)

@@ -173,7 +173,7 @@ def parser(inpt: str):
             raise CommandFailed()
         for thing in __available__():
             if __is_same__(thing_name, thing):
-                thing.talk(_game_state)
+                thing.talk()
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()
