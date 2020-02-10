@@ -110,4 +110,4 @@ class Readable:
 class Fixed:
     """Cannot be taken or moved.
     """
-    pass
+    can_take = False

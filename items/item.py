@@ -4,6 +4,7 @@ from errors import CommandFailed
 class Item(ABC):
 
     name = 'thing'
+    alt_names = tuple([])
     pronouns = ('it', 'it', 'its', '', 'itself')
 
     @property
@@ -64,3 +65,13 @@ class Item(ABC):
     def talk(self):
         print(f'Talking to inanimate objects now are we?')
         raise CommandFailed()
+
+    can_take = True
+
+    @property
+    def take_text(self):
+        return f'You take the {self.name}.'
+
+    @property
+    def take_fail_text(self):
+        return f'You can\'t take the {item.name}'

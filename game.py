@@ -3,7 +3,7 @@ from time import sleep
 from itertools import chain as chain_iter
 from player import Player
 from rooms.all import rooms, describe_room
-from items.mixins import Openable, Fixed
+from items.mixins import Openable, Readable
 from scenarios.intro import Intro
 from errors import CommandFailed
 from util import hasmixin
@@ -41,12 +41,15 @@ def parser(inpt: str):
         return chain_iter(room_people, __available_items__(), [_game_state['player']])
 
     def __is_same__(thing_name, thing):
-        return thing_name.lower() in (thing.name.lower(), thing.prettyname.lower())
+        return thing_name.lower() in (thing.name, thing.prettyname.lower(), *thing.alt_names)
 
     def _examine(thing_name):
         for thing in __available__():
             if __is_same__(thing_name, thing):
                 thing.examine()
+                if hasmixin(thing, Readable):
+                    print('It Reads:')
+                    thing.read()
                 return
         print('Nothing like that exists here.')
         raise CommandFailed()
@@ -70,13 +73,13 @@ def parser(inpt: str):
     def _take(item_name):
         for item in room_items:
             if __is_same__(item_name, item):
-                if not hasmixin(item, Fixed):
+                if item.can_take:
                     inventory.append(item)
                     room_items.remove(item)
-                    print(f'You take the {item.name}.')
+                    print(item.take_text)
                     return
                 else:
-                    print(f'You can\'t take the {item.name}')
+                    print(item.take_fail_text)
                     raise CommandFailed()
         print('Nothing like that exists here.')
         raise CommandFailed()
@@ -182,7 +185,7 @@ def parser(inpt: str):
             '(look, l, surroundings) : Look around the room.',
             '(inventory, i) : Check your inventory.',
             '(go) [DIRECTION] : Take the exit in DIRECTION.',
-            '(examine, inspect) [THING] : Get some more information about THING.',
+            '(examine, x, inspect) [THING] : Get some more information about THING.',
             '(feel, touch) [THING] : Touch THING.',
             '(open) [THING] : Try to open THING.',
             '(close) [THING] : Try to close THING.',
@@ -209,6 +212,7 @@ def parser(inpt: str):
         'nw': (lambda: _go('north west'), 0),
         'go': (_go, 1),
         'examine': (_examine, 1),
+        'x': (_examine, 1),
         'inspect': (_examine, 1),
         'read': (_read, 1),
         'i': (_inventory, 0),
