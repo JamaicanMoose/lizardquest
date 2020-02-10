@@ -19,7 +19,7 @@ class TalkToSelf(Scenario):
         else:
             self.num_times_called = 1
             print('~~~Who me?~~~')
-            state.add_accolade('The Mad')
+            state.add_title('Mad')
 
 
 class Player(Person):
@@ -51,7 +51,7 @@ class Player(Person):
 
     def add_title(self, title):
         if not self.has_title(title):
-            self.state['titles'].append[title]
+            self.state['titles'].append(title)
             s = 'New Title Acquired! Henceforth, you shall be known as:'
             print('*'*len(s))
             print(s)
