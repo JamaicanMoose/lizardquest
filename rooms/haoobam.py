@@ -37,7 +37,7 @@ And it has a label on it... how recursive.'''
         class LabelMakerUse(Scenario):
             def start(self, labelmaker):
                 def _n():
-                    print('There are three phrases keyed into the printer.')
+                    print('There are four phrases keyed into the printer.')
                     print('What would you like to print?')
                     choices = []
                     choices.append(('Printer Of Labels', _lbp,))
