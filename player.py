@@ -43,7 +43,7 @@ class Player(Person):
             s = 'New Accolade Acquired! Henceforth, you shall be known as:'
             print('*'*len(s))
             print(s)
-            print(f'{self._prettyname}, {accolade}')
+            print(self.full_name())
             print('*'*len(s))
 
     def has_title(self, title):
@@ -55,10 +55,13 @@ class Player(Person):
             s = 'New Title Acquired! Henceforth, you shall be known as:'
             print('*'*len(s))
             print(s)
-            print(f'{title} {self._prettyname}')
+            print(self.full_name())
             print('*'*len(s))
 
-    def examine(self):
+    def full_name(self):
         title_str = ' '.join(self.state['titles'])
         accolade_str = ', '.join(self.state['accolades'])
-        print(f'You\'re known as {title_str+" " if title_str else ""}{self._prettyname}{", "+accolade_str if accolade_str else ""}.')
+        return f'{title_str+" " if title_str else ""}{self._prettyname}{", "+accolade_str if accolade_str else ""}'
+
+    def examine(self):
+        print(f'You\'re known as {self.full_name()}.')
