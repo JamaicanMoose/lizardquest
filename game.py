@@ -143,6 +143,9 @@ def parser(inpt: str):
         raise CommandFailed()
 
     def _turn(onoff, thing_name):
+        if onoff not in ('on', 'off'):
+            print(f'What does it even mean to turn something {onoff}?')
+            raise CommandFailed()
         thing_name = _prompt_for_thing(thing_name, f'turn {onoff}')
         for thing in __available__():
             if __is_same__(thing_name, thing):
