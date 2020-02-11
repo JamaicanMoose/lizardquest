@@ -34,11 +34,12 @@ class EmployeeBoard(Fixed, Item):
     prettyname = 'A Grid Of Photos'
 
     def examine(self):
-        self.alt_names.append('grid of photos')
-        self.name = 'meaningless awards'
-        self.prettyname = self.name.title()
-        self.alt_names.append('awards')
-        _game_state['_brig_employee_board_examined'] = True
+        if '_brig_employee_board_examined' not in _game_state:
+            self.alt_names.append('grid of photos')
+            self.name = 'meaningless awards'
+            self.prettyname = self.name.title()
+            self.alt_names.append('awards')
+            _game_state['_brig_employee_board_examined'] = True
         Item.examine(self)
 
 
