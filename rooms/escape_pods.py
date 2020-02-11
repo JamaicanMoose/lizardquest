@@ -11,13 +11,6 @@ class toZenGarden(Entrance, Item):
     entrance_destination = 'zenGarden'
     description = ('A sturdy chrome ladder.')
 
-class DarkLizard(Item):
-    name = 'dark lizard'
-    description = '''\
-You look into his beady eyes and feel in your soul that in the past this
-lizard has done terrible things and dabbled in dark magic that no man, or
-lizard, should ever have attempted.'''
-
 class EscapePod(Readable, Fixed, Item):
     @property
     def prettyname(self):
@@ -89,8 +82,7 @@ escape_pods = {
     'items': [
         EscapePod(1, 'Safe Planet'),
         EscapePod(2, 'A Wormhole'),
-        EscapePod(3, 'A Real Pirate Ship'),
-        DarkLizard()
+        EscapePod(3, 'A Real Pirate Ship')
     ],
     'people': [],
     'exits': {
