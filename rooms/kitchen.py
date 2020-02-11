@@ -1,5 +1,5 @@
 from items.item import Item
-from items.mixins import Entrance
+from items.mixins import Entrance, Fixed, Readable
 from person import Person
 from scenarios.scenario import Scenario
 from time import sleep
@@ -18,6 +18,26 @@ class spaceBacon(Item):
     description = ('\"SpaceBacon!(tm) Made with RealPig*!\" \n\n'+
                    '*RealPig is a registered trademark of SpaceBacon,'+
                    ' Incorporated. Product may not contain pork products.\n')
+
+class sandwichPoster(Fixed, Readable, Item):
+    name = 'poster of a sandwich'
+    alt_names = ['poster']
+    description = ('A poster on the wall detailing a recipe for some culinary '
+                   'creation.\nUpon closer inspection, you find that it '
+                   'illustrates how to build a sandwich!\nIt also enumerates '
+                   'the ingredients, which are as follows:\n1) Bread\n2) '
+                   'SpaceBacon\n3) Lettuce')
+    text = ('Perhaps one of the most versatile creations in the aspiring '
+            'chef\'s toolkit, the sandwich has a long and storied '
+            'history.\nTo create a sandwich, one must first gather the '
+            'following ingredients: bread, SpaceBacon, and lettuce.\n'
+            'Sauces may be added for additional spiciness, sweetness, pungency,'
+            ' or any of many additional properties.\nAfter the ingredients '
+            'have been gathered, the act of assembly is left to the '
+            'imagination.')
+
+    def examine(self):
+        Item.examine(self)
 
 class SandwichBuild(Scenario):
 
@@ -70,7 +90,9 @@ class SandwichBuild(Scenario):
         print("The chef whistles to himself as he stares at a notepad on "
               "the countertop, listening to some music on his SpacePods.\n"
               "He doesn't seem to notice you, but you notice, in large letters,"
-              " the word \"BEANS?\" written at the top of the page.")
+              " the word \"BEANS?\" written at the top of the page.\n\n"
+              "Not wanting to bother him, you think that it would probably be "
+              "best to get his attention when you are ready to cook!")
 
     def start(self, state):
         # Run alt scenario if you don't have ingredients
@@ -210,7 +232,8 @@ kitchen = {
                     ' BACON here.\nYou see a CHEF looking at a notepad and'+
                     ' jamming to music.'),
     'items': [
-        spaceBacon(),],
+        spaceBacon(),
+        sandwichPoster()],
     'people': [Chef()],
     'exits': {
         'hubwards': RecRoomDoor(),
