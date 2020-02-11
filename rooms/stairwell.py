@@ -4,7 +4,7 @@ from items.mixins import Entrance, Readable
 """ The Stairwell
 """
 
-class memo(Item, Readable):
+class memo(Readable, Item):
     name = 'note'
     alt_names = ['memo', 'paper']
     description = ('A small piece of paper labelled \"MEMO.\"')
