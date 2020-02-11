@@ -73,12 +73,18 @@ You get into the escape pod and press the \"LAUNCH\" button.
         )
         sleep(3)
         print('''\
-Nothing seems to be happening so you get out of the escape pod.
+A message appears on the console: \"Lizard Recepticle Empty. Launch Has Been Cancelled.\"
+Nothing else seems to be happening, so you get out of the escape pod.
 '''
         )
 
 escape_pods = {
-    'description': ('you are in the Escape Pod Hanger.'),
+    'description': ('You are in the Escape Pod Hangar.\n'+
+                    'Despite the size of the ship, it appears that there are only three emergency escape pods.\n'+
+                    'Each of them has a small screen displaying a number, as well as a pre-programmed location:\n'+
+                    'ESCAPE POD 1, ESCAPE POD 2, and ESCAPE POD 3.\nThe locations are written in smaller text, and would require a closer look.\n'+
+                    'The room is pretty empty, otherwise -- It\'s a Space OSHA violation to have any trip hazards near emergency equipment.\n'+
+                    'Behind you is a LADDER that goes back to the ZEN GARDEN.\n'),
     'items': [
         EscapePod(1, 'Safe Planet'),
         EscapePod(2, 'A Wormhole'),
@@ -86,6 +92,6 @@ escape_pods = {
     ],
     'people': [],
     'exits': {
-        'north': toZenGarden(),
+        'zenwards': toZenGarden(),
     }
 }
