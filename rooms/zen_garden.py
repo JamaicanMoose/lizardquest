@@ -62,7 +62,7 @@ class KoiConversation(Scenario):
         sleep(2)
         if choice == 0:
             print("\"You are aboard a spaceship, the Millennium Lizard, manned "
-                  "by a crew of intergalactic adventurers.")
+                  "by a crew of intergalactic adventurers.\"")
         elif choice == 1:
             print("\"Let it be so.\"")
             print("And then, as if with the snap of a finger, all hot dogs "
