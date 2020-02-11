@@ -217,7 +217,7 @@ def parser(inpt: str):
             '(break) [THING] : Try to break THING.',
             '(use) [THING] : Try to use THING.',
             '(talk) [THING] : Try to talk to THING.',
-            '(read) [THING] : Try to read THING.'
+            '(read) [THING] : Try to read THING.',
             '(wait, w) : Sit around for a bit.'
         ]
         for text in command_txt:
