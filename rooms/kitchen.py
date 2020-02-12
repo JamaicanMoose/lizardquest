@@ -35,6 +35,9 @@ class sandwichPoster(Fixed, Readable, Item):
             ' or any of many additional properties.\nAfter the ingredients '
             'have been gathered, the act of assembly is left to the '
             'imagination.')
+    take_fail_text = '''\
+You don't want to take the poster and deprive others of the opportunity to
+explore the culinary arts!'''
 
     def examine(self):
         Item.examine(self)
@@ -92,7 +95,7 @@ class SandwichBuild(Scenario):
               "He doesn't seem to notice you, but you notice, in large letters,"
               " the word \"BEANS?\" written at the top of the page.\n\n"
               "Not wanting to bother him, you think that it would probably be "
-              "best to get his attention when you are ready to cook!")
+              "best to get his attention when you are ready to make a dish!")
 
     def start(self, state):
         # Run alt scenario if you don't have ingredients
@@ -144,7 +147,7 @@ class SandwichBuild(Scenario):
                 sleep(1)
             elif sandwich["sauce"] == "No sauce":
                 sandwich["sauce"] = "sauceless"
-                print("The chef looks on as horror as you stare at him and "
+                print("The chef looks on in horror as you stare at him and "
                       "proceed, ignoring the sauces...")
                 sleep(1)
             else:

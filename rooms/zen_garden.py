@@ -16,7 +16,7 @@ class toEscapePods(Entrance, Item):
     entrance_destination = 'escapePods'
     description = ('A sturdy chrome ladder.')
 
-class Bonsai(Item, Fixed):
+class Bonsai(Fixed, Item):
     name = 'bonsai'
     alt_names = ['tree', 'bonsai tree']
     description = ('The well-manicured bonsai tree sticks out from beneath '
@@ -24,6 +24,9 @@ class Bonsai(Item, Fixed):
                    'tree itself resembles a cherry blossom, only smaller.\n'
                    'Despite the impeccable appearance of the tree, there is '
                    'no gardener in sight.')
+    take_fail_text = '''\
+Taking the bonsai would likely disturb the pristine nature of the room, so
+it's probably best not to take it. Besides, it would probably be unwieldy.'''
 
 class KoiConversation(Scenario):
 
