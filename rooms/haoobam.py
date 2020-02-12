@@ -5,10 +5,18 @@ from scenarios.scenario import Scenario
 """ Head administrative office of bureaucracy and mail
 """
 
-class toUpperHall(Entrance, Item):
-    name = 'double door'
+class DoorToUpperHall(Entrance, Item):
+    name = 'door'
+    alt_names = ['']
     entrance_destination = 'upperHall'
-    description = 'Doors leading to the upper hallway.'
+    entrance_destination_name = 'upper hall'
+    entrance_type = 'door'
+    description = '''\
+A large bureaucratic looking door.
+You peer through the porthole and see the upper hallway.
+
+It has a small label on it.'''
+
 
 class Desk(Fixed, Item):
     name = 'desk'
@@ -19,6 +27,7 @@ It is probably the most boring desk you\'ve ever seen.'''
 You try to grab the desk and take it with you but it seems to be fixed
 to the floor.
 '''
+
 
 class LabelMaker(Breakable, Readable, Item):
     name = 'label maker'
@@ -87,6 +96,6 @@ A really bland office with cream colored walls and a single desk.''',
     ],
     'people': [],
     'exits': {
-        'north': toUpperHall(),
+        'south west': DoorToUpperHall(),
     }
 }

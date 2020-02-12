@@ -1,26 +1,44 @@
 from items.item import Item
 from items.mixins import Entrance
+from scenarios.scenario import Scenario
+from person import Person
 from util import endgame
 from time import sleep
 
 """ The Herpetology Room [Room (0,0,0)]
 """
 
-class toUpperHall(Entrance, Item):
-    name = 'door'
+class DoorsToUpperHall(Entrance, Item):
+    name = 'double doors'
+    alt_names = ['south']
     entrance_destination = 'upperHall'
-    description = ('A large set of double doors, leading back to the UPSTAIRS HALLWAY.')
+    entrance_destination_name = 'upper hall'
+    entrance_type = 'double doors'
+    description = '''\
+A large set of double doors.
 
-class toCaptainsRoom(Entrance, Item):
+The left one has a small label on it.'''
+
+
+class LadderToCaptainsRoom(Entrance, Item):
     name = 'ladder'
+    alt_names = ['down']
     entrance_destination = 'captainsRoom'
-    description = ('A ladder, headin\' on down to the CAPTAIN\'S ROOM.')
+    entrance_destination_name = 'captain\'s room'
+    entrance_type = 'ladder'
+    description = '''\
+A ladder.
+Looking down you can see the carpet on the floor.
+
+The ladder has a small label on it.'''
+
 
 class consolationLizard(Item):
     name='consolation lizard'
     prettyname='A Consolation Lizard'
     alt_names=['lizard', 'bad lizard']
     description="The lizard looks at you with judgement and pity in its eyes.\nIt shakes its head, slowly."
+
 
 class natticConversation(Scenario):
     hasntmet = True
@@ -40,7 +58,7 @@ Was there anything else you needed?'''
             )
 
         def _n():
-            
+
             choices = []
             if self.askedForFriend==False:
                 choices.append(('Hey there! I\'m looking for a friend!', _evaluateFirst,))
@@ -82,7 +100,7 @@ Alright, let's see what you've been up to!
                 nsay("That's... I guess that's something?\nAt the very least, it proves you know how to use a labelmaker.")
                 self.accoladeCount=self.accoladeCount+1
                 sleep(1.5)
-                      
+
             if _game_state['player'].has_accolade("Cares About Others"):
                 print("\nEVALUATING: Cares About Others\n")
                 nsay("Awwwwh! That's so sweet! I knew you had a heart of gold, you big softy, you!")
@@ -116,7 +134,7 @@ Alright, let's see what you've been up to!
                 nsay("Hey, you're making your way up in the world!\nAnd by \"your way up in the world\", I mean \"a sandwich\"!")
                 self.accoladeCount=self.accoladeCount+1
                 sleep(1.5)
-                      
+
             if _game_state['player'].has_accolade("The Conscientious"):
                 print("\nEVALUATING: The Conscientious\n")
                 nsay("Look at you! So kind and considerate!\nWas that something you learned, or were you... BREAD that way?")
@@ -140,7 +158,7 @@ Alright, let's see what you've been up to!
                 nsay("Sounds like it's time to hit the books!\nGood luck on that test.")
                 self.accoladeCount=self.accoladeCount+1
                 sleep(1.5)
-                
+
 
             if _game_state['player'].has_accolade("The Generous"):
                 print("\nEVALUATING: The Generous\n")
@@ -269,7 +287,7 @@ You're no longer lonely- from that day forward, your days are spent with those y
                 else:
                     print("You have a really nice conversation with Nattic!\nAfterwards, you get up and continue on your way.")
                     nsay("Good luck on your quest!")
-    
+
             elif accoladeCount>5:
                 nsay("You're well on your way! Keep up the good work!")
             elif accoladeCount>0:
@@ -281,7 +299,7 @@ You're no longer lonely- from that day forward, your days are spent with those y
 
             anything_else()
             _n()
-            
+
         def _evaluateFirst():
             askedForFriend=True
             nsay('''\
@@ -299,7 +317,7 @@ and to ensure that everyone onboard can travel safely among the stars!
 ''')
             anything_else()
             _n()
-            
+
         def _aboutship():
             nsay('''\
 This ship, the Millenium Lizard, is bad in concept and worse in execution.
@@ -312,7 +330,7 @@ but it's like how the horse got replaced by the engine, you know?
             print("\nYou don't know, but nod anyhow. What the space hell is a \"horse\"?")
             anything_else()
             _n()
-            
+
         def _enableCheats():
             print("Nattic looks at you, quizzically.")
             nsay("Did you just pronounce a tilde? Out loud? With your mouth? How?")
@@ -331,7 +349,7 @@ but it's like how the horse got replaced by the engine, you know?
             nsay((r+" has been added to the travel queue.\nWe'll go there after reaching our current destination.\nETA: 5000 years or so."))
             nsay("Meanwhile, if you wanted to go somewhere onboard the ship, I suggest just... walking there.")
             anything_else()
-            _n()     
+            _n()
         def _hug():
             print('''\
 You climb on top of the console to give Nattic a hug.
@@ -347,7 +365,7 @@ I appreciate the sentiment! But, um... next time, maybe just a high-five'll do.
                 _game_state['player'].add_accolade("Affectionate to a fault")
             anything_else()
             _n()
-            
+
         if self.hasntmet:
             nsay('''\
 Oh! A new face!
@@ -360,12 +378,13 @@ Let's see here...
 Ah, well! No matter, I suppose! You're here now.
 I'm Nattic, and I'm pleased as punch to meetcha!
 I help keep things ship-shape around here.
-''')            
+''')
             self.hasntmet = False
         else:
             nsay('Oh, it\'s you! Come on in!')
         nsay('Was there something you needed?')
         _n()
+
 
 class bridgeComputer(Person):
     name = 'bridge computer'
@@ -375,6 +394,7 @@ An installation of FriendShip(tm) Navigational Tool and Travel Companion, v2.6.3
 They're currently displaying a projection of a friendly, smiling face.
 As they notice you staring, they make a few funny faces, then laugh a bit at themself.'''
     scenario = natticConversation()
+
 
 bridge = {
     'description': ('''\
@@ -391,7 +411,7 @@ As for exits, there is a LADDER to the captain\'s room and a large DOOR back int
     'items': [],
     'people': [bridgeComputer()],
     'exits': {
-        'to the hall': toUpperHall(),
-        'down': toCaptainsRoom(),
+        'south': DoorsToUpperHall(),
+        'down': LadderToCaptainsRoom(),
     }
 }

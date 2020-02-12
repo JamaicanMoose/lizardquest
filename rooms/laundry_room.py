@@ -7,10 +7,16 @@ from person import Person
 """ The Laundry Room
 """
 
-class toDorms(Entrance, Item):
-    name = 'door to dorms'
+class DoorToDorms(Entrance, Item):
+    name = 'door'
+    alt_names = ['west']
     entrance_destination = 'dorms'
-    description = ('A door leading back to the DORMS.')
+    entrance_destination_name = 'dorms'
+    entrance_type = 'door'
+    description = '''
+A small wooden door.
+
+There is a small label on it.'''
 
 class foldedClothes(Item):
     name = 'clothes'
@@ -88,7 +94,7 @@ class crosswordPirate(Person):
     scenario = crossword()
 
 _laundry_room_desc = '''\
-Based on the machines spinning and whirring around you, you judge that 
+Based on the machines spinning and whirring around you, you judge that
 you are in the ship's LAUNDRY ROOM. A pile of folded CLOTHES sits on a table.
 A SPACE PIRATE is focused intently on a piece of paper, pencil in hand.'''
 
@@ -97,6 +103,6 @@ laundry_room = {
     'items': [foldedClothes()],
     'people': [crosswordPirate()],
     'exits': {
-        'bedwards': toDorms(),
+        'west': DoorToDorms(),
     }
 }

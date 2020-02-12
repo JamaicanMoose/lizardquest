@@ -9,57 +9,69 @@ from util import endgame
 """ The Kitchen
 """
 
-class RecRoomDoor(Entrance, Item):
-    name = 'rec room'
+class DoorToRecRoom(Entrance, Item):
+    name = 'door'
+    alt_names = ['south east']
     entrance_destination = 'recRoom'
-    description = ('A door to the RECREATION ROOM.')
+    entrance_destination_name = 'rec room'
+    entrance_type = 'door'
+    description = '''\
+A large metal door.
+Through the porthole you can see the rec room.
+
+There is a small label on it.'''
+
 
 class spaceBacon(Item):
     name = 'bacon'
-    description = ('\"SpaceBacon!(tm) Made with RealPig*!\" \n\n'+
-                   '*RealPig is a registered trademark of SpaceBacon,'+
-                   ' Incorporated. Product may not contain pork products.\n')
+    description = '''\
+\"SpaceBacon!(TM) Made with RealPig*!\"
+
+*RealPig is a registered trademark of SpaceBacon, Incorporated.
+Product may not contain pork products.'''
+
 
 class sandwichPoster(Fixed, Readable, Item):
     name = 'poster of a sandwich'
     alt_names = ['poster']
-    description = ('A poster on the wall detailing a recipe for some culinary '
-                   'creation.\nUpon closer inspection, you find that it '
-                   'illustrates how to build a sandwich!\nIt also enumerates '
-                   'the ingredients, which are as follows:\n1) Bread\n2) '
-                   'SpaceBacon\n3) Lettuce')
-    text = ('Perhaps one of the most versatile creations in the aspiring '
-            'chef\'s toolkit, the sandwich has a long and storied '
-            'history.\nTo create a sandwich, one must first gather the '
-            'following ingredients: bread, SpaceBacon, and lettuce.\n'
-            'Sauces such as the delicious Plurpel Sauce® may be added for '
-            'additional spiciness, sweetness, pungency, '
-            'or any of many additional properties.\nAfter the ingredients '
-            'have been gathered, the act of assembly is left to the '
-            'imagination.')
+    description = '''\
+A poster on the wall detailing a recipe for some culinary creation.
+Upon closer inspection, you find it illustrates how to build a sandwich!
+It also enumerates the ingredients which are as follows:
+
+1) Bread
+2) SpaceBacon
+3) Lettuce'''
+    text = '''\
+Perhaps one of the most versatile creations in the aspiring chef\'s toolkit,
+the sandwich has a long and storied history.
+To create a sandwich, one must first gather the following ingredients: bread,
+SpaceBacon, and lettuce.
+Sauces such as the delicious Plurpel Sauce® may be added for additional
+spiciness, sweetness, pungency, or any of many additional properties.
+After the ingredients have been gathered, the act of assembly is left to
+the imagination.'''
     take_fail_text = '''\
 You don't want to take the poster and deprive others of the opportunity to
 explore the culinary arts!'''
 
-    def examine(self):
-        Item.examine(self)
 
 class SandwichBuild(Scenario):
 
-    class sandwich(Item):
+    class Sandwich(Item):
         name = 'sandwich'
         description = ''
 
         def __init__(self, sandwichState):
             if sandwichState['open-faced']:
                 self.description = ('A delicious looking open-faced %s '
-                                    'sandwich, cut into two scrumptious %s' % 
-                                    (sandwichState['sauce'], 
+                                    'sandwich, cut into two scrumptious %s' %
+                                    (sandwichState['sauce'],
                                      sandwichState['cut']))
             else:
                 self.description = ('A delicious looking %s sandwich, '
-                                    'cut into two scrumptious %s' % 
-                                    (sandwichState['sauce'], 
+                                    'cut into two scrumptious %s' %
+                                    (sandwichState['sauce'],
                                      sandwichState['cut']))
 
 
@@ -92,12 +104,17 @@ class SandwichBuild(Scenario):
                 _game_state['player'].state['inventory'].remove(item)
 
     def alt_convo(self, state):
-        print("The chef whistles to himself as he stares at a notepad on "
-              "the countertop, listening to some music on his SpacePods.\n"
-              "He doesn't seem to notice you, but you notice, in large letters,"
-              " the word \"BEANS?\" written at the top of the page.\n\n"
-              "Not wanting to bother him, you think that it would probably be "
-              "best to get his attention when you are ready to make a dish!")
+        print('''\
+The chef whistles to himself as he stares at a notepad on the countertop,
+listening to some music on his SpacePods.
+He doesn\'t seem to notice you, but you notice, in large letters, the word
+\"BEANS?\" written at the top of the page.'''
+        )
+        sleep(4)
+        print('''\
+Not wanting to bother him, you think that it would probably be best to get
+his attention when you are ready to make a dish.'''
+        )
 
     def start(self, state):
         # Run alt scenario if you don't have ingredients
@@ -121,7 +138,7 @@ class SandwichBuild(Scenario):
             sleep(1)
 
             print("Not so fast! What kind of sandwich is this, anyhow?")
-            sandwich["open-faced"] = (Scenario.pick(["A normal sandwich", 
+            sandwich["open-faced"] = (Scenario.pick(["A normal sandwich",
                                                      "Open-faced"]) == 1)
 
             print("With an image of the sandwich in mind, you begin to "
@@ -169,7 +186,7 @@ class SandwichBuild(Scenario):
 
             if sandwich["open-faced"]:
                 print("\nYou cut your sandwich as you see fit. You are now the "
-                      "proud owner of an open-faced %s sandwich!\n" % 
+                      "proud owner of an open-faced %s sandwich!\n" %
                       sandwich["sauce"])
             else:
                 print("\nYou cut your sandwich as you see fit. You are now the "
@@ -217,7 +234,7 @@ class SandwichBuild(Scenario):
                       "well-equipped to tackle your ultimate goal!")
 
 
-        # Run the scenario    
+        # Run the scenario
         _n()
 
 class Chef(Person):
@@ -236,8 +253,10 @@ kitchen = {
     'items': [
         spaceBacon(),
         sandwichPoster()],
-    'people': [Chef()],
+    'people': [
+        Chef()
+    ],
     'exits': {
-        'hubwards': RecRoomDoor(),
+        'hubwards': DoorToRecRoom(),
     }
 }

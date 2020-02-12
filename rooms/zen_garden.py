@@ -6,15 +6,28 @@ from person import Person
 """ The Zen Garden
 """
 
-class RecRoomDoor(Entrance, Item):
-    name = 'door'
+class ArchWayToRecRoom(Entrance, Item):
+    name = 'archway'
+    alt_names = ['east']
     entrance_destination = 'recRoom'
-    description = ('A chrome door.')
+    entrance_destination_name = 'rec room'
+    entrance_type = 'archway'
+    description = '''\
+An ornate stone archway.
+Through the archway you see the rec room.
 
-class toEscapePods(Entrance, Item):
+There is a small label on it.'''
+
+class LadderToEscapePods(Entrance, Item):
     name = 'ladder'
+    alt_names = ['down']
     entrance_destination = 'escapePods'
-    description = ('A sturdy chrome ladder.')
+    entrance_destination_name = 'escape pods'
+    description = '''\
+A sturdy chrome ladder.
+Looking downwards you see pristine white floors.
+
+There is a small label on it.'''
 
 class Bonsai(Fixed, Item):
     name = 'bonsai'
@@ -90,14 +103,19 @@ class Fish(Person):
     scenario = KoiConversation()
 
 zen_garden = {
-    'description': ('You are now in the ZEN GARDEN.\nA feeling of ease '
-                    'overcomes you.\nThe floor is covered in well-rounded '
-                    'stones, and a BONSAI TREE sticks out from them.\n'
-                    'A pool of KOI FISH lies below the tree\'s branches.'),
-    'items': [Bonsai()],
-    'people': [Fish()],
+    'description': '''
+A feeling of ease flows over you.
+The floor is covered in grass and well-rounded stones, and a BONSAI TREE
+sticks out from them.
+A pool of KOI FISH lies below the tree\'s branches.''',
+    'items': [
+        Bonsai()
+    ],
+    'people': [
+        Fish()
+    ],
     'exits': {
-        'north': RecRoomDoor(),
-        'down': toEscapePods(),
+        'north': ArchWayToRecRoom(),
+        'down': LadderToEscapePods(),
     }
 }

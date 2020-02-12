@@ -6,15 +6,27 @@ from time import sleep
 """ The Dorms
 """
 
-class RecRoomDoor(Entrance, Item):
-    name = 'rec room door'
+class DoorToRecRoom(Entrance, Item):
+    name = 'door'
+    alt_names = ['north']
     entrance_destination = 'recRoom'
-    description = ('A large, circular door leading back to the REC ROOM.')
+    entrance_destination_name = 'rec room'
+    entrance_type = 'door'
+    description = '''
+A metal door.
 
-class toLaundryRoom(Entrance, Item):
-    name = 'laundry room door'
+There is a small label on it.'''
+
+class DoorToLaundryRoom(Entrance, Item):
+    name = 'door'
+    alt_names = ['east']
     entrance_destination = 'laundryRoom'
-    description = ('A small door, leading into the LAUNDRY ROOM.')
+    entrance_destination_name = 'laundry room'
+    entrance_type = 'door'
+    description = '''
+A small wooden door.
+
+There is a small label on it.'''
 
 class cardTable(Fixed, Item):
     name = 'card table'
@@ -29,7 +41,7 @@ The table would create a DEADLY TOXIN if placed in your inventory!
 
 ...nah, I'm just kidding.
 But you don't need it, and it's heavy, so you leave it where it is.'''
-    
+
 
 class flair(Fixed, Item):
     name = 'flair'
@@ -124,7 +136,7 @@ dorms = {
               cardTable()],
     'people': [],
     'exits': {
-        'hubwards': RecRoomDoor(),
-        'laundrywards': toLaundryRoom(),
+        'north': DoorToRecRoom(),
+        'east': DoorToLaundryRoom(),
     }
 }

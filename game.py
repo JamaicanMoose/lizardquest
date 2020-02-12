@@ -3,7 +3,7 @@ from time import sleep
 from itertools import chain as chain_iter
 from player import Player
 from rooms.all import rooms, describe_room
-from items.mixins import Openable, Readable
+from items.mixins import Openable, Readable, Lockable
 from scenarios.intro import Intro
 from errors import CommandFailed
 from util import hasmixin
@@ -15,15 +15,27 @@ def parser(inpt: str):
     comm_inpt = inpt.lower().split()
 
     def _go(direction):
+        prev_loc = _game_state['curr_loc']
         room = _game_state['curr_room']
         exits = room['exits']
         if direction in exits.keys():
-            destination = exits[direction].destination()
+            exit = exits[direction]
+            destination = exit.destination()
+            if hasmixin(exit, Openable) and not exit.openable_open:
+                print(f'You can\'t go there, the {exit.entrance_type} is shut tightly.')
+                raise CommandFailed()
+
             if destination not in rooms:
                 print('DEBUG: That room is not yet implemented!')
                 raise CommandFailed()
+            new_room = rooms[destination]
             _game_state['curr_loc'] = destination
-            _game_state['curr_room'] = rooms[destination]
+            _game_state['curr_room'] = new_room
+            # Replace exit names with new information about where they go
+            exit._entrance_replace_name()
+            for exit in new_room['exits'].values():
+                if exit.destination() == prev_loc:
+                    exit._entrance_replace_name()
             describe_room(_game_state['curr_room'])
         else:
             print('There is no exit in that direction.')
@@ -232,6 +244,8 @@ def parser(inpt: str):
         'sw': (lambda: _go('south west'), 0),
         'w': (lambda: _go('west'), 0),
         'nw': (lambda: _go('north west'), 0),
+        'u': (lambda: _go('up'), 0),
+        'd': (lambda: _go('down'), 0),
         'go': (_go, 1),
         'examine': (_examine, 1),
         'x': (_examine, 1),
@@ -239,7 +253,6 @@ def parser(inpt: str):
         'read': (_read, 1),
         'i': (_inventory, 0),
         'inventory': (_inventory, 0),
-        'w': (lambda: None, 0),
         'wait': (lambda: None, 1),
         'take': (_take, 1),
         'get': (_take, 1),

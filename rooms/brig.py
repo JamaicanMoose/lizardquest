@@ -6,31 +6,29 @@ from scenarios.scenario import Scenario
 """ The Brig
 """
 
-_ladder_description = '''\
+class LadderToRecRoom(Entrance, Item):
+    name = 'chrome ladder'
+    alt_names = ['ladder', 'up']
+    entrance_destination = 'recRoom'
+    entrance_destination_name = 'rec room'
+    entrance_type = 'ladder'
+    description = '''\
 A sturdy chrome ladder.
 Presumably this leads to an upper floor of the ship.
 
-A small label next to the ladder reads:
-\"To Rec Room\"'''
+There is a small label on it.'''
 
-class Ladder(Entrance, Item):
-    name = 'chrome ladder'
-    alt_names = ('ladder',)
-    entrance_destination = 'recRoom'
-    description = _ladder_description
 
-_grid_of_photos_description = '''\
+class EmployeeBoard(Readable, Fixed, Item):
+    name = 'grid of photos'
+    alt_names = ['photos']
+    text = '\"Employee of the Month\"'
+    description = '''\
 As you get closer you realize that every photo in the grid depicts
 the same person.
 Sixty pictures of Guard stare back at you, each one prouder and more
 enthusiastic than the last.
-Beneath each is a simple metal plaque:
-\"Employee of the Month\"'''
-
-class EmployeeBoard(Fixed, Item):
-    name = 'grid of photos'
-    alt_names = ['photos']
-    description = _grid_of_photos_description
+Beneath each is a simple metal plaque.'''
     prettyname = 'A Grid Of Photos'
 
     def examine(self):
@@ -43,25 +41,25 @@ class EmployeeBoard(Fixed, Item):
         Item.examine(self)
 
 
-_medal_front_text = '''\
-\"The Department of Bureaucracy and Mail recognizes the recipient of this
-medal as a Good and Special Boy\"
-On the back, the words \"You Performed Adequately!\" are printed in Comic Sans
-followed by a ridiculous amount of fine print.'''
-_medal_back_text = '''\
-\"You Performed Adequately!\"'''
-_medal_description = f'''\
-A gold star, polised to a mirror sheen.'''
-_medal_take_fail_text = '''\
-He doesn\'t look willing to give it to you, and given how focused he is,
-it doesn\'t seem like taking it is an option.'''
-
 class Medal(Fixed, Readable, Item):
     name = 'medal'
     alt_names = ('award',)
-    text = _medal_front_text
-    description = _medal_description
-    take_fail_text = _medal_take_fail_text
+    _medal_front_text = '''\
+\"The Department of Bureaucracy and Mail recognizes the recipient of this
+medal as a Good and Special Boy\"'''
+    _medal_back_text = '\"You Performed Adequately!\"'
+    description = 'A gold star, polised to a mirror sheen.'
+    take_fail_text = '''\
+The guard doesn\'t look willing to give it to you, and given how focused he is,
+it doesn\'t seem like taking it is an option.'''
+    @property
+    def text(self):
+        return f'''\
+On the front it says:
+{_medal_front_text}
+On the back, the words:
+{_medal_back_text}
+are printed in Comic Sans followed by a ridiculous amount of fine print.'''
 
 class Flask(Fixed, Item):
     name = 'ye flask'
@@ -205,24 +203,21 @@ Hi! What did you want to talk about?'''
         )
         _n()
 
-_guard_description = f'''\
-He\'s wearing a black uniform and is clutching what looks to be a medal of
-some kind.'''
 
 class Guard(Person):
     name = 'guard'
     scenario = GuardConversation()
-    description = _guard_description
+    description = f'''\
+He\'s wearing a black uniform and is clutching what looks to be a medal of
+some kind.'''
     alt_names = []
 
-_brig_description = '''\
+brig = {
+    'description': '''\
 Vacant cells line either side of the central hall.
 On the other end of the hall, there is a GRID OF PHOTOS.
 A GUARD sits in the middle of the hall, proudly polishing a MEDAL of
-some fashion.'''
-
-brig = {
-    'description': (_brig_description),
+some fashion.''',
     'items': [
         EmployeeBoard(),
         Medal(),
@@ -232,6 +227,6 @@ brig = {
         Guard()
     ],
     'exits': {
-        'north': Ladder(),
+        'up': LadderToRecRoom(),
     }
  }

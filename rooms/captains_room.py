@@ -7,10 +7,17 @@ from time import sleep
 """ The Captain's Room
 """
 
-class toBridge(Entrance, Item):
+class LadderToBridge(Entrance, Item):
     name = 'ladder'
+    alt_names = ['up']
     entrance_destination = 'bridge'
-    description = ('A sturdy chrome ladder, leading back up to the BRIDGE.')
+    entrance_destination_name = 'bridge'
+    entrance_type = 'ladder'
+    description = '''\
+A ladder.
+Looking up you can see the bright lights of the bridge.
+
+The ladder has a small label on it.'''
 
 _captains_log_desc = '''\
 A dusty old journal sitting on the desk. It\'s got a bookmark stuck about
@@ -89,7 +96,7 @@ down a bite. "Now I can focus on piloting this ship again!"''')
             return
 
         print('''\
-"Hey, between you and me, if ya happen to find a sandwich on yer hands, I'd 
+"Hey, between you and me, if ya happen to find a sandwich on yer hands, I'd
 be happy ta relieve ya of it! I've been awful hungry, and I'm not sure where
 that butler's been off to!"''')
 
@@ -104,7 +111,7 @@ that butler's been off to!"''')
 after we only just met? Well thank you very much!"''')
             sleep(1)
             print("You hand the captain your sandwich.")
-            
+
             for item in _game_state['player'].state['inventory']:
                 if 'sandwich' in item.name:
                     _game_state['player'].state['inventory'].remove(item)
@@ -124,7 +131,7 @@ captain\'s hat.'''
 
 class captain(Person):
     name = 'captain'
-    alt_names = ['pirate captain', 'space pirate captain', 
+    alt_names = ['pirate captain', 'space pirate captain',
                  'roberto', 'captain roberto']
     pronouns = ('she', 'her', 'her', 'hers', 'herself')
     description = _captain_desc
@@ -140,6 +147,6 @@ captains_room = {
     'items': [captainsLog()],
     'people': [captain()],
     'exits': {
-        'north': toBridge(),
+        'up': LadderToBridge(),
     }
 }

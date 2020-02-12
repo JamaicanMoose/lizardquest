@@ -1,15 +1,22 @@
 from items.item import Item
-from items.mixins import Entrance, Readable, Fixed
+from items.mixins import Entrance, Readable, Fixed, Readable
 from time import sleep
 from util import endgame
 
 """ The Escpae Pod Storage Room
 """
 
-class toZenGarden(Entrance, Item):
-    name = 'ladder'
+class LadderToZenGarden(Entrance, Item):
+    name = 'chrome ladder'
+    alt_names = ['ladder', 'up']
     entrance_destination = 'zenGarden'
-    description = ('A sturdy chrome ladder.')
+    entrance_destination_name = 'zen garden'
+    entrance_type = 'ladder'
+    description = '''\
+A sturdy chrome ladder.
+Looking upwards you see the edges of grass.
+
+There is a small label on it.'''
 
 class EscapePod(Readable, Fixed, Item):
     @property
@@ -65,6 +72,39 @@ As you fly away you feel like you\'ve forgotten something.
 A rumbling in your stomach lets you know that you never did manage to
 get the sandwich that you had been longing for all this time.'''
                     )
+                sleep(3)
+                if lizard.name == 'dark lizard':
+                    print('''\
+The lights inside your escape pod turn blood red.
+'''
+                    )
+                    sleep(1)
+                    print('''\
+The edge from your lizard seems to have had an effect on the pod\'s systems.
+'''
+                    )
+                elif lizard.name == 'big mouthed lizard':
+                    print('''\
+You here a fan noise and the big mouthed lizard reappears in the lizard
+recepticle.
+'''
+                    )
+                    sleep(1)
+                    print('''\
+It\'s nice to have a travelling companion.
+'''
+                    )
+                elif lizard.name == 'southern tipped lizard':
+                    print('''\
+Looking out the back of the pod you see the southern tipped lizard floating
+away from you.
+'''
+                    )
+                    sleep(1)
+                    print('''\
+What a weird lizard.
+'''
+                    )
                 sleep(2)
                 endgame()
         print('''\
@@ -79,12 +119,15 @@ Nothing else seems to be happening, so you get out of the escape pod.
         )
 
 escape_pods = {
-    'description': ('You are in the Escape Pod Hangar.\n'+
-                    'Despite the size of the ship, it appears that there are only three emergency escape pods.\n'+
-                    'Each of them has a small screen displaying a number, as well as a pre-programmed location:\n'+
-                    'ESCAPE POD 1, ESCAPE POD 2, and ESCAPE POD 3.\nThe locations are written in smaller text, and would require a closer look.\n'+
-                    'The room is pretty empty, otherwise -- It\'s a Space OSHA violation to have any trip hazards near emergency equipment.\n'+
-                    'Behind you is a LADDER that goes back to the ZEN GARDEN.\n'),
+    'description': '''\
+You are in the Escape Pod Hangar.
+Despite the size of the ship, it appears that there are only
+three emergency escape pods.
+Each of them has a small screen displaying a number, as well as a
+pre-programmed location: ESCAPE POD 1, ESCAPE POD 2, and ESCAPE POD 3.
+The locations are written in smaller text, and would require a closer look.
+The room is pretty empty, otherwise -- It\'s a Space OSHA violation to have
+any trip hazards near emergency equipment.''',
     'items': [
         EscapePod(1, 'Safe Planet'),
         EscapePod(2, 'A Wormhole'),
@@ -92,6 +135,6 @@ escape_pods = {
     ],
     'people': [],
     'exits': {
-        'zenwards': toZenGarden(),
+        'up': LadderToZenGarden(),
     }
 }

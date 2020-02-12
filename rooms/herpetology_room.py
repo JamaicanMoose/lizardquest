@@ -6,10 +6,17 @@ from time import sleep
 from person import Person
 
 
-class RecRoomDoor(Entrance, Item):
+class DoorToRecRoom(Entrance, Item):
     name = 'door'
+    alt_names = ['west']
     entrance_destination = 'recRoom'
-    description = 'A door to the rec room.'
+    entrance_destination_name = 'rec room'
+    entrance_type = 'door'
+    description = '''
+A large metal door.
+The porthole is all fogged up.
+
+There is a small label on it.'''
 
 
 class Fridge(Fixed, Item):
@@ -382,6 +389,7 @@ I am the Lizard Wizard, and it is a pleasure to meet you.'''
         lwsay('What would you like to talk about?')
         _n()
 
+
 class LizardWizard(Person):
     name = 'lizard wizard'
     alt_names = ['wizard']
@@ -405,6 +413,6 @@ in the corner.''',
         LizardWizard()
     ],
     'exits': {
-        'north': RecRoomDoor(),
+        'west': DoorToRecRoom(),
     }
 }
