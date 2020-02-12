@@ -318,7 +318,7 @@ and to ensure that everyone onboard can travel safely among the stars!
             anything_else()
             _n()
 
-        def _aboutship():
+        def _aboutShip():
             nsay('''\
 This ship, the Millenium Lizard, is bad in concept and worse in execution.
 I don't have much else to say about it.
