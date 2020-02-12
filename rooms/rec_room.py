@@ -82,11 +82,11 @@ class LizaRnD(Fixed, Item):
 ## has decoupled and become its own, smaller ship. The player gets the accolade
 ## Emergency Quarantine Officer (or, if we want to be mean, Enemy of Science)
 
-class SoupnShit(Fixed, Item):
-    name='door to Soup n Shit'
-    alt_names = ['soup', 'soup n shit']
+class JustSoup(Fixed, Item):
+    name='door to just soup'
+    alt_names = ['soup', 'just soup']
     description=('To the north-east side of the room, you notice'+
-                 ' the familiar branding of Soup \'n\' Shit, '+
+                 ' the familiar branding of Just Soup, '+
                  'a pretty mediocre chain restaurant.\nA holo-screen informs you that the'+
                  ' restaurant is currently closed for renovations.\n'+
                  'Normally, when the restaurant is closed, you can order'+
@@ -114,7 +114,7 @@ rec_room = {
                     ' as smooth jazz plays over the speakers.\nYou can smell something delicious coming'+
                     ' from the KITCHEN and the DORMS, and you can hear the sounds of mist being sprayed in the HERPETOLOGY ROOM.\n'),
     'items': [TVArea(),
-              SoupnShit(),
+              JustSoup(),
               RoomRoom(),
               LizaRnD(),
               LizardBrothel()],
