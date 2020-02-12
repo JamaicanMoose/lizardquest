@@ -36,6 +36,7 @@ class toKitchen(Entrance, Item):
 
 class RoomRoom(Fixed, Item):
     name='door to Room.'
+    alt_names = ['room', 'room.']
     description=('You notice something peculiar. There\'s a door here'+
                  'just labeled \"Room.\" The door is locked.\n'+
                  'In fact, it seems as though someone has intentionally broken'+
@@ -58,11 +59,13 @@ class RoomRoom(Fixed, Item):
 
 class LizardBrothel(Fixed, Item):
     name='door to the lizard brothel'
+    alt_names = ['lizard brothel', 'brothel']
     description=('Oh, no. You\'re not going in there.\nNot after the incident'+
                  ' at the last lizard brothel you went to.')
 
 class LizaRnD(Fixed, Item):
     name='door to lizard research and development'
+    alt_names = ['lizard research', 'research', 'development']
     description=('Behind this door is the cutting edge of research into'+
                  'lizards and lizard-care acoutrements.\nThe door displays a'+
                  ' holographic message: \"Testing in Progress. Do Not Disturb.\"'+
@@ -81,6 +84,7 @@ class LizaRnD(Fixed, Item):
 
 class SoupnShit(Fixed, Item):
     name='door to Soup n Shit'
+    alt_names = ['soup', 'soup n shit']
     description=('To the north-east side of the room, you notice'+
                  ' the familiar branding of Soup \'n\' Shit, '+
                  'a pretty mediocre chain restaurant.\nA holo-screen informs you that the'+
