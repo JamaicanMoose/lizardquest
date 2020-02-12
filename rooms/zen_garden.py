@@ -7,7 +7,7 @@ from person import Person
 """
 
 class RecRoomDoor(Entrance, Item):
-    name = 'a door'
+    name = 'door'
     entrance_destination = 'recRoom'
     description = ('A chrome door.')
 
