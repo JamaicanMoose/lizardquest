@@ -58,7 +58,7 @@ explore the culinary arts!'''
 
 class SandwichBuild(Scenario):
 
-    class Sandwich(Item):
+    class SandwichItem(Item):
         name = 'sandwich'
         description = ''
 
@@ -195,7 +195,7 @@ his attention when you are ready to make a dish.'''
 
             # Add the sandwich to your inventory
             _game_state['player'].state['inventory'].append(
-                self.sandwich(sandwich))
+                self.SandwichItem(sandwich))
 
             # sleep(1)
             # print("...")
