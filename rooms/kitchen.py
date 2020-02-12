@@ -4,6 +4,7 @@ from person import Person
 from scenarios.scenario import Scenario
 from time import sleep
 from sys import exit
+from util import endgame
 
 """ The Kitchen
 """
@@ -207,10 +208,7 @@ class SandwichBuild(Scenario):
                       "in the world.\nAll that matters is you and your "
                       "sandwich.")
                 sleep(3)
-
-                print("\n\nThank you for playing our game! Enter \"0\" when "
-                      "you are ready to exit.")
-                Scenario.choose([("Bye!", lambda: exit(0))])
+                endgame()
             else:
                 print("\nAs you bite into your sandwich, you marvel at how "
                       "good it tastes!")
