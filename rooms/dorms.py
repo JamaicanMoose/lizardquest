@@ -20,8 +20,8 @@ class cardTable(Fixed, Item):
     name = 'card table'
     alt_names=['tabel','card tabel','table']
     description = '''\
-    A card table, with cards strewn all about the floor.
-    It seems as though the pirates were engaged in a game of full-contact Go Fish.
+A card table, with cards strewn all about the floor.
+It seems as though the pirates were engaged in a game of full-contact Go Fish.
 '''
     take_fail_text = '''\
 You can't!
