@@ -25,6 +25,11 @@ class foldedClothes(Item):
     def use(self):
         sleep(2)
         print("You put on the stolen space pirate outfit. Stylish!")
+        _game_state['player'].state['clothes'] = 'pirate'
+        for item in _game_state['player'].state['inventory']:
+            if 'clothes' in item.name:
+                _game_state['player'].state['inventory'].remove(item)
+
         return
 
 class crossword(Scenario):
@@ -34,8 +39,9 @@ class crossword(Scenario):
         sleep(1)
         print("After a moment, they look up at you.")
 
-        if '_puzzle_solved' in _game_state:
+        if _game_state['player'].has_title('Puzzle Solver Extraordinaire'):
             print("\"Hey, thanks for helping me solve that puzzle!\"")
+            print("It seems that they've since moved onto another crossword.")
             return
         elif _game_state['player'].has_title('Fashion Criminal'):
             print("\"Go away, thief.\"")
@@ -44,7 +50,31 @@ class crossword(Scenario):
         print('''\
 Gesturing at a row of tiles on his crossword puzzle, the pirate reads
 the clue from the puzzle:
-\"\"''')
+\"Leading brand in sandwich sauces\"
+
+The corresponding tiles on the puzzle are as follows:
+_ L _ _ P E L
+''')
+
+        sleep(1)
+        print("Want to take a guess?")
+        choice = Scenario.pick(["Sure", "I have no idea"])
+
+        if choice == 1:
+            print("The pirate shrugs, and continues staring intently.")
+            return
+
+        print("What is your guess?")
+        guess = input("--? ")
+        if guess.strip().lower() != "plurpel":
+            sleep(1)
+            print("\"Hmmm...I don't think so.\"")
+            sleep(1)
+            print("The pirate shrugs, and continues staring intently.")
+            return
+
+        sleep(1)
+        print("\"Hmmm...you're right!\" declares the pirate. \"Thanks!\"")
         _game_state['player'].add_title('Puzzle Solver Extraordinaire')
 
 _crossword_pirate_desc = '''\

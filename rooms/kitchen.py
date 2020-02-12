@@ -31,8 +31,9 @@ class sandwichPoster(Fixed, Readable, Item):
             'chef\'s toolkit, the sandwich has a long and storied '
             'history.\nTo create a sandwich, one must first gather the '
             'following ingredients: bread, SpaceBacon, and lettuce.\n'
-            'Sauces may be added for additional spiciness, sweetness, pungency,'
-            ' or any of many additional properties.\nAfter the ingredients '
+            'Sauces such as the delicious Plurpel Sauce® may be added for '
+            'additional spiciness, sweetness, pungency, '
+            'or any of many additional properties.\nAfter the ingredients '
             'have been gathered, the act of assembly is left to the '
             'imagination.')
     take_fail_text = '''\
