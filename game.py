@@ -228,7 +228,7 @@ def parser(inpt: str):
             '(turn) [on/off] [THING] : Try to turn THING on/off.',
             '(break) [THING] : Try to break THING.',
             '(use) [THING] : Try to use THING.',
-            '(talk) [THING] : Try to talk to THING.',
+            '(talk to) [ENTITY] : Try to talk to ENTITY.',
             '(read) [THING] : Try to read THING.',
             '(wait, w) : Sit around for a bit.'
         ]
