@@ -392,8 +392,8 @@ A strange looking man with a long beard in a long green robe.'''
 
 herpetology_room = {
     'description': '''\
-A small room with a row of tanks along one wall and a large white fridge.
-An extremely short man who looks like a wizard is is sitting at a desk
+A small room with a row of TANKS along one wall and a large white FRIDGE.
+An extremely short man who looks like a WIZARD is is sitting at a desk
 in the corner.''',
     'items': [
         LizardTank(1, DarkLizard()),
