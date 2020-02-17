@@ -56,9 +56,9 @@ it doesn\'t seem like taking it is an option.'''
     def text(self):
         return f'''\
 On the front it says:
-{_medal_front_text}
+{self._medal_front_text}
 On the back, the words:
-{_medal_back_text}
+{self._medal_back_text}
 are printed in Comic Sans followed by a ridiculous amount of fine print.'''
 
 class Flask(Fixed, Item):

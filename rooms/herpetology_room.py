@@ -277,14 +277,17 @@ What are the three basic principles of lizard wizardry?'''
             )
             choices = []
             choices.append(('''\
+
 1. Pull the tail first.
 2. To open the lizard turn clockwise.
 3. The lizard is always right.''', _lizard_one_correct,))
             choices.append(('''\
+
 1. Safety first.
 2. The lizard is always right.
 3. Respect your lizard and they will bring you greatness.''', _lizard_two,))
             choices.append(('''\
+
 1. Don\'t talk about the lizard arcanum.
 2. Don\'t talk about the lizard arcanum.
 3. If a lizard makes a noise or rolls over the casting is over.''', _lizard_two,))

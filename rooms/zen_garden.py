@@ -115,7 +115,7 @@ A pool of KOI FISH lies below the tree\'s branches.''',
         Fish()
     ],
     'exits': {
-        'north': ArchWayToRecRoom(),
+        'east': ArchWayToRecRoom(),
         'down': LadderToEscapePods(),
     }
 }
